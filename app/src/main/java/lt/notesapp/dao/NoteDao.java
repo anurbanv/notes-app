@@ -26,6 +26,23 @@ public class NoteDao {
         db.noteGroupDao().insert(entity);
     }
 
+    public void updateNoteGroup(NoteGroup noteGroup) {
+        NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
+        entity.id = noteGroup.getId();
+        db.noteGroupDao().update(entity);
+    }
+
+    public void deleteNoteGroup(NoteGroup noteGroup) {
+        NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
+        entity.id = noteGroup.getId();
+        db.noteGroupDao().delete(entity);
+    }
+
+    public NoteGroup getNoteGroupById(int id) {
+        NoteGroupEntity entity = db.noteGroupDao().selectById(id);
+        return new NoteGroup(entity);
+    }
+
     public List<NoteGroup> getAllGroups() {
         List<NoteGroup> noteGroups = new ArrayList<>();
 

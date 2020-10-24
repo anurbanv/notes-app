@@ -13,6 +13,7 @@ import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityGroupsBinding;
 import lt.notesapp.model.NoteGroup;
 
+
 public class GroupsActivity extends AppCompatActivity {
 
     private ActivityGroupsBinding binding;
@@ -28,6 +29,17 @@ public class GroupsActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(v ->
                 startActivity(new Intent(this, AddEditGroupActivity.class)));
         noteDao = new NoteDao(getApplicationContext());
+
+        binding.groupList.setOnEditClickListener(noteGroup -> {
+            Intent intent = new Intent(this, AddEditGroupActivity.class);
+            intent.putExtra("groupId", noteGroup.getId());
+            startActivity(intent);
+        });
+
+        binding.groupList.setOnDeleteClickListener(noteGroup -> AsyncTask.execute(() -> {
+            noteDao.deleteNoteGroup(noteGroup);
+            updateGroupList();
+        }));
     }
 
     @Override

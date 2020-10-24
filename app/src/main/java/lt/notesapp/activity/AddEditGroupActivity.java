@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityAddEditGroupBinding;
+import lt.notesapp.model.NoteGroup;
 
 public class AddEditGroupActivity extends AppCompatActivity {
 
@@ -19,14 +20,33 @@ public class AddEditGroupActivity extends AppCompatActivity {
         binding = ActivityAddEditGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.btnBack.setOnClickListener(v -> finish());
+
         NoteDao noteDao = new NoteDao(getApplicationContext());
 
-        binding.btnBack.setOnClickListener(v -> finish());
-        binding.vEditGroup.setOnSubmitListener(noteGroup -> AsyncTask.execute(() -> {
-            noteDao.insertNoteGroup(noteGroup);
-            runOnUiThread(this::finish);
-        }));
+        Bundle extras = getIntent().getExtras();
 
-        binding.vEditGroup.newGroup();
+        if (extras != null && extras.containsKey("groupId")) {
+            AsyncTask.execute(() -> {
+                int groupId = extras.getInt("groupId");
+                NoteGroup group = noteDao.getNoteGroupById(groupId);
+                runOnUiThread(() -> {
+                    binding.vEditGroup.setOnSubmitListener(noteGroup -> AsyncTask.execute(() -> {
+                        noteGroup.setId(groupId);
+                        noteDao.updateNoteGroup(noteGroup);
+                        runOnUiThread(this::finish);
+                    }));
+
+                    binding.vEditGroup.editGroup(group);
+                });
+            });
+        } else {
+            binding.vEditGroup.setOnSubmitListener(noteGroup -> AsyncTask.execute(() -> {
+                noteDao.insertNoteGroup(noteGroup);
+                runOnUiThread(this::finish);
+            }));
+
+            binding.vEditGroup.newGroup();
+        }
     }
 }

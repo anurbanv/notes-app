@@ -4,26 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:gravity="center"
     android:background="@drawable/corners_white"
     android:elevation="8dp"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <TextView
+        android:id="@+id/tvNoteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        tools:text="5" />
+
+    <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_marginEnd="8dp"
         tools:text="Title" />
 
-    <TextView
-        android:id="@+id/tvNoteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        tools:text="5" />
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="30dp"
+        android:background="@drawable/ic_edit"
+        android:layout_marginEnd="8dp"
+        android:layout_height="30dp"/>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="30dp"
+        android:background="@drawable/ic_delete"
+        android:layout_height="30dp"/>
 
 </LinearLayout>

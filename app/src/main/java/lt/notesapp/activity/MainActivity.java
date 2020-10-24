@@ -9,7 +9,7 @@ import lt.notesapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String TAG = "NotesApp";
+    public static String APP_TAG = "NotesApp";
     private ActivityMainBinding binding;
 
     @Override
