@@ -47,6 +47,10 @@ public class NoteGroupListView extends RecyclerView {
         adapter.setOnDeleteClickListener(listener);
     }
 
+    public void setOnItemClickListener(NoteGroupsAdapter.OnItemClickListener listener) {
+        adapter.setOnItemClickListener(listener);
+    }
+
     public void update(List<NoteGroup> noteGroups) {
         adapter.setNoteGroups(noteGroups);
     }

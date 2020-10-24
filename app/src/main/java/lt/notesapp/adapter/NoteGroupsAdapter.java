@@ -25,9 +25,14 @@ public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.Vi
         void onDeleteClick(NoteGroup noteGroup);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(NoteGroup noteGroup);
+    }
+
     private List<NoteGroup> noteGroups = new ArrayList<>();
     private OnEditClickListener onEditClickListener;
     private OnDeleteClickListener onDeleteClickListener;
+    private OnItemClickListener onItemClickListener;
 
     public void setNoteGroups(List<NoteGroup> noteGroups) {
         this.noteGroups = noteGroups;
@@ -40,6 +45,10 @@ public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.Vi
 
     public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -61,6 +70,10 @@ public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.Vi
 
         holder.noteGroupView.setOnDeleteClickListener(v -> {
             if (onDeleteClickListener != null) onDeleteClickListener.onDeleteClick(noteGroup);
+        });
+
+        holder.noteGroupView.setOnClickListener(v -> {
+            if (onItemClickListener != null) onItemClickListener.onItemClick(noteGroup);
         });
     }
 

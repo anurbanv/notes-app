@@ -40,6 +40,12 @@ public class GroupsActivity extends AppCompatActivity {
             noteDao.deleteNoteGroup(noteGroup);
             updateGroupList();
         }));
+
+        binding.groupList.setOnItemClickListener(noteGroup -> {
+            Intent intent = new Intent(this, NoteListActivity.class);
+            intent.putExtra("groupId", noteGroup.getId());
+            startActivity(intent);
+        });
     }
 
     @Override

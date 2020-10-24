@@ -67,4 +67,19 @@ public class NoteDao {
         return noteGroups;
     }
 
+    public List<Note> getNotesByGroupId(int groupId) {
+        List<NoteEntity> noteEntities = db.noteDao().getNotesByGroupId(groupId);
+        NoteGroupEntity noteGroupEntity = db.noteGroupDao().selectById(groupId);
+
+        NoteGroup group = new NoteGroup(noteGroupEntity);
+
+        List<Note> notes = new ArrayList<>();
+
+        for (NoteEntity noteEntity : noteEntities) {
+            Note note = new Note(noteEntity, group);
+            notes.add(note);
+        }
+
+        return notes;
+    }
 }

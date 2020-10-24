@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".activity.GroupsActivity" />
         <activity android:name=".activity.AddEditGroupActivity" />
+        <activity android:name=".activity.NoteListActivity" />
     </application>
 
 </manifest>
