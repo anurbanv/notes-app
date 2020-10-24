@@ -1,8 +1,7 @@
 package lt.notesapp.adapter;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,32 +9,45 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lt.notesapp.R;
-import lt.notesapp.databinding.ViewNoteBinding;
 import lt.notesapp.model.Note;
+import lt.notesapp.view.NoteView;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Note note);
+    }
+
     private List<Note> notes = new ArrayList<>();
+    private OnDeleteClickListener onDeleteClickListener;
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
+    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.view_note, parent, false);
-        return new ViewHolder(view);
+        NoteView noteView = new NoteView(parent.getContext());
+        noteView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        return new ViewHolder(noteView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.binding.tvTitle.setText(note.getTitle());
-        holder.binding.tvContent.setText(note.getContent());
+        holder.noteView.update(note);
+        holder.noteView.setOnDeleteClickListener(v -> {
+            if (onDeleteClickListener != null) onDeleteClickListener.onDeleteClick(note);
+        });
     }
 
     @Override
@@ -45,11 +57,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewNoteBinding binding;
+        NoteView noteView;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = ViewNoteBinding.bind(itemView);
+        public ViewHolder(@NonNull NoteView noteView) {
+            super(noteView);
+            this.noteView = noteView;
         }
     }
 }

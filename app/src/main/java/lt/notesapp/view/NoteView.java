@@ -41,4 +41,8 @@ public class NoteView extends LinearLayout {
         binding.tvTitle.setText(note.getTitle());
         binding.tvContent.setText(note.getContent());
     }
+
+    public void setOnDeleteClickListener(OnClickListener listener) {
+        binding.btnDelete.setOnClickListener(listener);
+    }
 }

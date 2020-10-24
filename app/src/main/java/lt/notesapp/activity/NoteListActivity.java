@@ -37,6 +37,11 @@ public class NoteListActivity extends AppCompatActivity {
             intent.putExtra("groupId", groupId);
             startActivity(intent);
         });
+
+        binding.noteList.setOnDeleteClickListener(note -> AsyncTask.execute(() -> {
+            noteDao.deleteNote(note);
+            updateList();
+        }));
     }
 
     @Override

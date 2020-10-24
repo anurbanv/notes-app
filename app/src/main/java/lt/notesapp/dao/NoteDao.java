@@ -88,4 +88,10 @@ public class NoteDao {
         NoteEntity entity = new NoteEntity(note.getNoteGroup().getId(), note.getTitle(), note.getContent());
         db.noteDao().insert(entity);
     }
+
+    public void deleteNote(Note note) {
+        NoteEntity entity = new NoteEntity(note.getNoteGroup().getId(), note.getTitle(), note.getContent());
+        entity.id = note.getId();
+        db.noteDao().delete(entity);
+    }
 }

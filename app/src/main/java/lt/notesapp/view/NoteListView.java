@@ -39,6 +39,10 @@ public class NoteListView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(context));
     }
 
+    public void setOnDeleteClickListener(NotesAdapter.OnDeleteClickListener listener) {
+        adapter.setOnDeleteClickListener(listener);
+    }
+
     public void update(List<Note> notes) {
         adapter.setNotes(notes);
     }
