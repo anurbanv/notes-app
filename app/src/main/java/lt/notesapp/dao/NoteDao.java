@@ -1,22 +1,48 @@
 package lt.notesapp.dao;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
+import android.content.Context;
 
+import androidx.room.Room;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import lt.notesapp.AppDatabase;
 import lt.notesapp.entity.NoteEntity;
+import lt.notesapp.entity.NoteGroupEntity;
+import lt.notesapp.model.Note;
+import lt.notesapp.model.NoteGroup;
 
-@Dao
-public interface NoteDao {
-    @Query("SELECT * FROM note")
-    List<NoteEntity> selectAll();
+public class NoteDao {
 
-    @Insert
-    void insert(NoteEntity note);
+    private final AppDatabase db;
 
-    @Delete
-    void delete(NoteEntity note);
+    public NoteDao(Context applicationContext) {
+        db = Room.databaseBuilder(applicationContext, AppDatabase.class, "notes_app_table").build();
+    }
+
+    public List<NoteGroup> getAllGroups() {
+        List<NoteGroup> noteGroups = new ArrayList<>();
+
+        List<NoteGroupEntity> entities = db.noteGroupDao().selectAll();
+
+        for (NoteGroupEntity entity : entities) {
+
+            List<NoteEntity> noteEntities = db.noteDao().getNotesByGroupId(entity.id);
+
+            NoteGroup noteGroup = new NoteGroup(entity);
+            List<Note> notes = new ArrayList<>();
+
+            for (NoteEntity noteEntity : noteEntities) {
+                Note note = new Note(noteEntity, noteGroup);
+                notes.add(note);
+            }
+
+            noteGroup.setNotes(notes);
+            noteGroups.add(noteGroup);
+        }
+
+        return noteGroups;
+    }
+
 }

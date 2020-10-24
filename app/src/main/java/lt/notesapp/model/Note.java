@@ -1,11 +1,20 @@
 package lt.notesapp.model;
 
+import lt.notesapp.entity.NoteEntity;
+
 public class Note {
 
     private int id;
     private NoteGroup noteGroup;
     private String title;
     private String content;
+
+    public Note(NoteEntity noteEntity, NoteGroup noteGroup) {
+        id = noteEntity.id;
+        this.noteGroup = noteGroup;
+        title = noteEntity.title;
+        content = noteEntity.content;
+    }
 
     public Note(NoteGroup noteGroup, String title, String content) {
         this.noteGroup = noteGroup;

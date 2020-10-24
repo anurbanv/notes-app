@@ -3,14 +3,17 @@ package lt.notesapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lt.notesapp.entity.NoteGroupEntity;
+
 public class NoteGroup {
 
     private int id;
     private String title;
     private List<Note> notes = new ArrayList<>();
 
-    public NoteGroup(String title) {
-        this.title = title;
+    public NoteGroup(NoteGroupEntity noteGroupEntity) {
+        this.id = noteGroupEntity.id;
+        this.title = noteGroupEntity.title;
     }
 
     public String getTitle() {
@@ -42,7 +45,6 @@ public class NoteGroup {
         return "NoteGroup{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", notes=" + notes +
                 '}';
     }
 }

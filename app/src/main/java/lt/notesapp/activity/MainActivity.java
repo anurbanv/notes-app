@@ -1,11 +1,14 @@
 package lt.notesapp.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
-import lt.notesapp.AppDatabase;
+import java.util.List;
+
+import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityMainBinding;
 import lt.notesapp.model.NoteGroup;
 
@@ -20,11 +23,14 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "notes_app_table").build();
+        NoteDao noteDao = new NoteDao(getApplicationContext());
 
-        NoteGroup noteGroup = new NoteGroup("Group 1");
+        AsyncTask.execute(() -> {
+            List<NoteGroup> allGroups = noteDao.getAllGroups();
 
-        binding.vNoteEdit.newNote(noteGroup);
+            for (NoteGroup allGroup : allGroups) {
+                Log.e(TAG, allGroup.toString());
+            }
+        });
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import lt.notesapp.entity.NoteGroupEntity;
 
 @Dao
-public interface NoteGroupDao {
+public interface RoomNoteGroupDao {
     @Query("SELECT * FROM note_group")
     List<NoteGroupEntity> selectAll();
 
