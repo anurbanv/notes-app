@@ -21,7 +21,7 @@ public class NoteEditView extends LinearLayout {
 
     private ViewNoteEditBinding binding;
     private OnSubmitListener onSubmitListener;
-    private NoteGroup noteGroup;
+    private Note note;
 
     public NoteEditView(Context context) {
         super(context);
@@ -47,7 +47,8 @@ public class NoteEditView extends LinearLayout {
             if (onSubmitListener != null) {
                 String title = binding.etTitle.getText().toString();
                 String content = binding.etContent.getText().toString();
-                Note note = new Note(noteGroup, title, content);
+                note.setTitle(title);
+                note.setContent(content);
                 onSubmitListener.onSubmit(note);
             }
         });
@@ -58,13 +59,13 @@ public class NoteEditView extends LinearLayout {
     }
 
     public void newNote(NoteGroup noteGroup) {
-        this.noteGroup = noteGroup;
+        note = new Note(noteGroup);
         binding.tvTitle.setText("New note");
         binding.btnSubmit.setText("Create");
     }
 
     public void editNote(Note note) {
-        noteGroup = note.getNoteGroup();
+        this.note = note;
         binding.tvTitle.setText(note.getTitle());
         binding.etTitle.setText(note.getTitle());
         binding.etContent.setText(note.getContent());

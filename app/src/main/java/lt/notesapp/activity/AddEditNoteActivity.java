@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityAddEditNoteBinding;
+import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class AddEditNoteActivity extends AppCompatActivity {
@@ -30,11 +31,27 @@ public class AddEditNoteActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             NoteGroup noteGroup = noteDao.getNoteGroupById(groupId);
             runOnUiThread(() -> {
-                binding.vNoteEdit.newNote(noteGroup);
-                binding.vNoteEdit.setOnSubmitListener(note -> AsyncTask.execute(() -> {
-                    noteDao.insertNote(note);
-                    runOnUiThread(this::finish);
-                }));
+                if (extras.containsKey("noteId")) {
+                    int noteId = extras.getInt("noteId");
+                    AsyncTask.execute(() -> {
+                        Note note = noteDao.getNoteById(noteId);
+                        runOnUiThread(() -> {
+                            binding.vNoteEdit.editNote(note);
+                            binding.vNoteEdit.setOnSubmitListener(note1 -> {
+                                AsyncTask.execute(() -> noteDao.updateNote(note1));
+                                runOnUiThread(this::finish);
+                            });
+                        });
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        binding.vNoteEdit.newNote(noteGroup);
+                        binding.vNoteEdit.setOnSubmitListener(note -> AsyncTask.execute(() -> {
+                            noteDao.insertNote(note);
+                            runOnUiThread(this::finish);
+                        }));
+                    });
+                }
             });
         });
     }

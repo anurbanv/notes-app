@@ -22,6 +22,10 @@ public class Note {
         this.content = content;
     }
 
+    public Note(NoteGroup noteGroup) {
+        this.noteGroup = noteGroup;
+    }
+
     public String getTitle() {
         return title;
     }

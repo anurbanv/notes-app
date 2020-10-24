@@ -94,4 +94,16 @@ public class NoteDao {
         entity.id = note.getId();
         db.noteDao().delete(entity);
     }
+
+    public Note getNoteById(int id) {
+        NoteEntity noteEntity = db.noteDao().getNoteById(id);
+        NoteGroupEntity entity = db.noteGroupDao().selectById(noteEntity.groupId);
+        NoteGroup group = new NoteGroup(entity);
+        return new Note(noteEntity, group);
+    }
+
+    public void updateNote(Note note) {
+        NoteEntity noteEntity = new NoteEntity(note);
+        db.noteDao().update(noteEntity);
+    }
 }

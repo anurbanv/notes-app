@@ -42,6 +42,13 @@ public class NoteListActivity extends AppCompatActivity {
             noteDao.deleteNote(note);
             updateList();
         }));
+
+        binding.noteList.setOnEditClickListener(note -> {
+            Intent intent = new Intent(this, AddEditNoteActivity.class);
+            intent.putExtra("groupId", groupId);
+            intent.putExtra("noteId", note.getId());
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -21,8 +21,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         void onDeleteClick(Note note);
     }
 
+    public interface OnEditClickListener {
+        void onEditClick(Note note);
+    }
+
     private List<Note> notes = new ArrayList<>();
     private OnDeleteClickListener onDeleteClickListener;
+    private OnEditClickListener onEditClickListener;
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
@@ -31,6 +36,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
     }
 
     @NonNull
@@ -45,8 +54,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note note = notes.get(position);
         holder.noteView.update(note);
+
         holder.noteView.setOnDeleteClickListener(v -> {
             if (onDeleteClickListener != null) onDeleteClickListener.onDeleteClick(note);
+        });
+
+        holder.noteView.setOnEditClickListener(v -> {
+            if (onEditClickListener != null) onEditClickListener.onEditClick(note);
         });
     }
 

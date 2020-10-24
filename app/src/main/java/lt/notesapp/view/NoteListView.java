@@ -43,6 +43,10 @@ public class NoteListView extends RecyclerView {
         adapter.setOnDeleteClickListener(listener);
     }
 
+    public void setOnEditClickListener(NotesAdapter.OnEditClickListener listener) {
+        adapter.setOnEditClickListener(listener);
+    }
+
     public void update(List<Note> notes) {
         adapter.setNotes(notes);
     }
