@@ -16,6 +16,10 @@ public class NoteGroup {
         this.title = noteGroupEntity.title;
     }
 
+    public NoteGroup(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }
