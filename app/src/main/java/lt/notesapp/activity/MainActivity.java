@@ -1,7 +1,7 @@
 package lt.notesapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,11 +18,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.vNoteEdit.setOnSubmitListener(noteGroup -> {
-            Log.e(TAG, noteGroup.toString());
+        binding.btnStartGroups.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GroupsActivity.class);
+            startActivity(intent);
         });
-
-        binding.vNoteEdit.newGroup();
-
     }
 }
