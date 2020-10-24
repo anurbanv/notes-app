@@ -2,6 +2,7 @@ package lt.notesapp.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +33,13 @@ public class AddEditGroupActivity extends AppCompatActivity {
                 NoteGroup group = noteDao.getNoteGroupById(groupId);
                 runOnUiThread(() -> {
                     binding.vEditGroup.setOnSubmitListener(noteGroup -> AsyncTask.execute(() -> {
-                        noteGroup.setId(groupId);
-                        noteDao.updateNoteGroup(noteGroup);
-                        runOnUiThread(this::finish);
+                        if (!noteGroup.getTitle().isEmpty()) {
+                            noteGroup.setId(groupId);
+                            noteDao.updateNoteGroup(noteGroup);
+                            runOnUiThread(this::finish);
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(this, "Empty title", Toast.LENGTH_SHORT).show());
+                        }
                     }));
 
                     binding.vEditGroup.editGroup(group);
@@ -42,8 +47,12 @@ public class AddEditGroupActivity extends AppCompatActivity {
             });
         } else {
             binding.vEditGroup.setOnSubmitListener(noteGroup -> AsyncTask.execute(() -> {
-                noteDao.insertNoteGroup(noteGroup);
-                runOnUiThread(this::finish);
+                if (!noteGroup.getTitle().isEmpty()) {
+                    noteDao.insertNoteGroup(noteGroup);
+                    runOnUiThread(this::finish);
+                } else {
+                    runOnUiThread(() -> Toast.makeText(this, "Empty title", Toast.LENGTH_SHORT).show());
+                }
             }));
 
             binding.vEditGroup.newGroup();

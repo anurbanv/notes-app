@@ -38,8 +38,8 @@ public class NoteGroupView extends LinearLayout {
     }
 
     public void update(NoteGroup noteGroup) {
-        binding.tvTitle.setText("[" + noteGroup.getTitle() + "]");
-        binding.tvNoteCount.setText(String.valueOf(noteGroup.getNotes().size()));
+        binding.tvTitle.setText(noteGroup.getTitle());
+        binding.tvNoteCount.setText("[" + noteGroup.getNotes().size() + "]");
     }
 
     public void setOnEditClickListener(OnClickListener listener) {
