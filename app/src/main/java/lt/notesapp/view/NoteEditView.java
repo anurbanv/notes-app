@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import lt.notesapp.R;
 import lt.notesapp.databinding.ViewNoteEditBinding;
 import lt.notesapp.model.Note;
+import lt.notesapp.model.NoteGroup;
 
 public class NoteEditView extends LinearLayout {
 
@@ -20,6 +21,7 @@ public class NoteEditView extends LinearLayout {
 
     private ViewNoteEditBinding binding;
     private OnSubmitListener onSubmitListener;
+    private NoteGroup noteGroup;
 
     public NoteEditView(Context context) {
         super(context);
@@ -45,7 +47,7 @@ public class NoteEditView extends LinearLayout {
             if (onSubmitListener != null) {
                 String title = binding.etTitle.getText().toString();
                 String content = binding.etContent.getText().toString();
-                Note note = new Note(title, content);
+                Note note = new Note(noteGroup, title, content);
                 onSubmitListener.onSubmit(note);
             }
         });
@@ -55,12 +57,14 @@ public class NoteEditView extends LinearLayout {
         this.onSubmitListener = onSubmitListener;
     }
 
-    public void newNote() {
+    public void newNote(NoteGroup noteGroup) {
+        this.noteGroup = noteGroup;
         binding.tvTitle.setText("New note");
         binding.btnSubmit.setText("Create");
     }
 
     public void editNote(Note note) {
+        noteGroup = note.getNoteGroup();
         binding.tvTitle.setText(note.getTitle());
         binding.etTitle.setText(note.getTitle());
         binding.etContent.setText(note.getContent());

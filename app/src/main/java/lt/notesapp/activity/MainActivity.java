@@ -3,16 +3,15 @@ package lt.notesapp.activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lt.notesapp.AppDatabase;
 import lt.notesapp.databinding.ActivityMainBinding;
-import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String TAG = "NotesApp";
     private ActivityMainBinding binding;
 
     @Override
@@ -21,15 +20,11 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        List<NoteGroup> noteGroups = new ArrayList<>();
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "notes_app_table").build();
 
-        for (int i = 0; i < 20; i++) {
-            NoteGroup noteGroup = new NoteGroup("Group " + i);
-            noteGroups.add(noteGroup);
-        }
+        NoteGroup noteGroup = new NoteGroup("Group 1");
 
-        Note note = new Note("Title 1", "Content\ncontent content");
-
-        binding.vNoteEdit.editNote(note);
+        binding.vNoteEdit.newNote(noteGroup);
     }
 }
