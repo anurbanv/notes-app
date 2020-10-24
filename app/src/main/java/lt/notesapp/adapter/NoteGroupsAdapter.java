@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lt.notesapp.R;
-import lt.notesapp.databinding.ViewNoteBinding;
-import lt.notesapp.model.Note;
+import lt.notesapp.databinding.ViewNoteGroupBinding;
+import lt.notesapp.model.NoteGroup;
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
+public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.ViewHolder> {
 
-    private List<Note> notes = new ArrayList<>();
+    private List<NoteGroup> noteGroups = new ArrayList<>();
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void setNoteGroups(List<NoteGroup> noteGroups) {
+        this.noteGroups = noteGroups;
         notifyDataSetChanged();
     }
 
@@ -27,29 +27,30 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.view_note, parent, false);
+        View view = inflater.inflate(R.layout.view_note_group, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Note note = notes.get(position);
-        holder.binding.tvTitle.setText(note.getTitle());
-        holder.binding.tvContent.setText(note.getContent());
+        NoteGroup noteGroup = noteGroups.get(position);
+        holder.binding.tvTitle.setText(noteGroup.getTitle());
+        holder.binding.tvNoteCount.setText(String.valueOf(noteGroup.getNotes().size()));
     }
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return noteGroups.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewNoteBinding binding;
+        ViewNoteGroupBinding binding;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ViewNoteBinding.bind(itemView);
+            binding = ViewNoteGroupBinding.bind(itemView);
         }
     }
+
 }

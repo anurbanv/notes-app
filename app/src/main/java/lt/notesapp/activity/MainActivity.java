@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lt.notesapp.databinding.ActivityMainBinding;
-import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,13 +20,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        NoteGroup noteGroup = new NoteGroup("Group");
+        List<NoteGroup> noteGroups = new ArrayList<>();
 
         for (int i = 0; i < 20; i++) {
-            Note note = new Note("Title", "Content " + i);
-            noteGroup.getNotes().add(note);
+            NoteGroup noteGroup = new NoteGroup("Group " + i);
+            noteGroups.add(noteGroup);
         }
 
-        binding.lvNotes.update(noteGroup.getNotes());
+        binding.lvNotes.update(noteGroups);
     }
 }

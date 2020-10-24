@@ -10,36 +10,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import lt.notesapp.adapter.NotesAdapter;
-import lt.notesapp.model.Note;
+import lt.notesapp.adapter.NoteGroupsAdapter;
+import lt.notesapp.model.NoteGroup;
 
-public class NoteListView extends RecyclerView {
+public class NoteGroupListView extends RecyclerView {
 
-    private NotesAdapter adapter;
+    private NoteGroupsAdapter adapter;
 
-    public NoteListView(@NonNull Context context) {
+    public NoteGroupListView(@NonNull Context context) {
         super(context);
         init(context);
     }
 
-    public NoteListView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NoteGroupListView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public NoteListView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NoteGroupListView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
-        adapter = new NotesAdapter();
+        adapter = new NoteGroupsAdapter();
         setAdapter(adapter);
         setHasFixedSize(true);
         setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public void update(List<Note> notes) {
-        adapter.setNotes(notes);
+    public void update(List<NoteGroup> noteGroups) {
+        adapter.setNoteGroups(noteGroups);
     }
 }
