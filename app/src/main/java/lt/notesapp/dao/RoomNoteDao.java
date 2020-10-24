@@ -11,10 +11,7 @@ import lt.notesapp.entity.NoteEntity;
 
 @Dao
 public interface RoomNoteDao {
-    @Query("SELECT * FROM note")
-    List<NoteEntity> selectAll();
-
-    @Query("SELECT * FROM note WHERE group_id = :groupId")
+    @Query("SELECT * FROM note WHERE group_id = :groupId ORDER BY id DESC")
     List<NoteEntity> getNotesByGroupId(int groupId);
 
     @Insert

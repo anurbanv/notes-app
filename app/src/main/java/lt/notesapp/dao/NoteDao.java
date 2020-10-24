@@ -82,4 +82,9 @@ public class NoteDao {
 
         return notes;
     }
+
+    public void insertNote(Note note) {
+        NoteEntity entity = new NoteEntity(note.getNoteGroup().getId(), note.getTitle(), note.getContent());
+        db.noteDao().insert(entity);
+    }
 }

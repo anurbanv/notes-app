@@ -1,5 +1,6 @@
 package lt.notesapp.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -30,6 +31,12 @@ public class NoteListActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         groupId = extras.getInt("groupId");
+
+        binding.btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddEditNoteActivity.class);
+            intent.putExtra("groupId", groupId);
+            startActivity(intent);
+        });
     }
 
     @Override
