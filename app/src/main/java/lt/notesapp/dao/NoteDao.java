@@ -36,6 +36,7 @@ public class NoteDao {
         NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
         entity.id = noteGroup.getId();
         db.noteGroupDao().delete(entity);
+        db.noteDao().deleteAllByGroupId(noteGroup.getId());
     }
 
     public NoteGroup getNoteGroupById(int id) {
