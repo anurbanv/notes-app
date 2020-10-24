@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lt.notesapp.databinding.ActivityMainBinding;
+import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             noteGroups.add(noteGroup);
         }
 
-        binding.lvNotes.update(noteGroups);
+        Note note = new Note("Title 1", "Content\ncontent content");
+
+        binding.vNoteEdit.editNote(note);
     }
 }

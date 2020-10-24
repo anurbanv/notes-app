@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <lt.notesapp.view.NoteGroupListView
-        android:id="@+id/lvNotes"
+    <lt.notesapp.view.NoteEditView
+        android:id="@+id/vNoteEdit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
