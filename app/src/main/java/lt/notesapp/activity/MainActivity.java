@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import lt.notesapp.databinding.ActivityMainBinding;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
-import lt.notesapp.view.NoteGroupView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,17 +18,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Note note = new Note("Title", "Content");
-        Note note1 = new Note("Title", "Content");
-
         NoteGroup noteGroup = new NoteGroup("Group");
-        noteGroup.getNotes().add(note);
-        noteGroup.getNotes().add(note1);
 
-        NoteGroupView noteGroupView = new NoteGroupView(this);
+        for (int i = 0; i < 20; i++) {
+            Note note = new Note("Title", "Content " + i);
+            noteGroup.getNotes().add(note);
+        }
 
-        binding.llRoot.addView(noteGroupView);
-        noteGroupView.update(noteGroup);
-
+        binding.lvNotes.update(noteGroup.getNotes());
     }
 }
