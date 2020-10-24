@@ -1,5 +1,6 @@
 package lt.notesapp.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import lt.notesapp.model.NoteGroup;
 public class GroupsActivity extends AppCompatActivity {
 
     private ActivityGroupsBinding binding;
+    private NoteDao noteDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,12 +25,19 @@ public class GroupsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.btnBack.setOnClickListener(v -> finish());
-        binding.btnAdd.setOnClickListener(v -> {
-            // todo start add activity
-        });
+        binding.btnAdd.setOnClickListener(v ->
+                startActivity(new Intent(this, AddEditGroupActivity.class)));
+        noteDao = new NoteDao(getApplicationContext());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateGroupList();
+    }
+
+    private void updateGroupList() {
         AsyncTask.execute(() -> {
-            NoteDao noteDao = new NoteDao(getApplicationContext());
             List<NoteGroup> groups = noteDao.getAllGroups();
             runOnUiThread(() -> binding.groupList.update(groups));
         });

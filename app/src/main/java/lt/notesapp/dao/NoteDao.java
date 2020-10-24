@@ -21,6 +21,11 @@ public class NoteDao {
         db = Room.databaseBuilder(applicationContext, AppDatabase.class, "notes_app_table").build();
     }
 
+    public void insertNoteGroup(NoteGroup noteGroup) {
+        NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
+        db.noteGroupDao().insert(entity);
+    }
+
     public List<NoteGroup> getAllGroups() {
         List<NoteGroup> noteGroups = new ArrayList<>();
 
