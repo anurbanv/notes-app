@@ -1,4 +1,4 @@
-package lt.notesapp.views;
+package lt.notesapp.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

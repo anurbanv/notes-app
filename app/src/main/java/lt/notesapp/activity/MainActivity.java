@@ -1,4 +1,4 @@
-package lt.notesapp;
+package lt.notesapp.activity;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import lt.notesapp.databinding.ActivityMainBinding;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
-import lt.notesapp.views.NoteGroupView;
+import lt.notesapp.view.NoteGroupView;
 
 public class MainActivity extends AppCompatActivity {
 
