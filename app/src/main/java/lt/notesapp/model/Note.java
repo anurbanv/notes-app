@@ -1,5 +1,7 @@
 package lt.notesapp.model;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import lt.notesapp.entity.NoteEntity;
 import lt.notesapp.rest.NoteObject;
 
@@ -31,6 +33,12 @@ public class Note {
 
     public Note(NoteGroup noteGroup) {
         this.noteGroup = noteGroup;
+    }
+
+    public Note(DocumentSnapshot document) {
+        this.id = (Integer) document.get("id");
+        this.title = (String) document.get("title");
+        this.content = (String) document.get("content");
     }
 
     public String getTitle() {

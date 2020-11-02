@@ -5,6 +5,10 @@ import android.util.Log;
 
 import androidx.room.Room;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,13 @@ import static lt.notesapp.activity.MainActivity.APP_TAG;
 
 public class NoteDao {
 
+    public interface OnFireStoreNotesRetrieved {
+        void onNotesRetrieved(List<Note> notes);
+    }
+
     private final AppDatabase db;
     private final NotesApi notesApi;
+    private final FirebaseFirestore fireStore;
 
     public NoteDao(Context applicationContext) {
         db = Room.databaseBuilder(applicationContext, AppDatabase.class, "notes_app_table").build();
@@ -37,6 +46,8 @@ public class NoteDao {
                 .build();
 
         notesApi = retrofit.create(NotesApi.class);
+
+        fireStore = FirebaseFirestore.getInstance();
     }
 
     public void insertNoteGroup(NoteGroup noteGroup) {
@@ -150,5 +161,23 @@ public class NoteDao {
             Log.e(APP_TAG, "API error", e);
             return new ArrayList<>();
         }
+    }
+
+    public void getNotesFromFireStore(OnFireStoreNotesRetrieved onFireStoreNotesRetrieved) {
+        CollectionReference notesRef = fireStore.collection("notes");
+
+        notesRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                List<Note> notes = new ArrayList<>();
+
+                for (DocumentSnapshot document : documents) {
+                    notes.add(new Note(document));
+                }
+
+                onFireStoreNotesRetrieved.onNotesRetrieved(notes);
+            }
+        });
     }
 }

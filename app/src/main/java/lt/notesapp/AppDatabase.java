@@ -8,8 +8,9 @@ import lt.notesapp.dao.RoomNoteGroupDao;
 import lt.notesapp.entity.NoteEntity;
 import lt.notesapp.entity.NoteGroupEntity;
 
-@Database(entities = {NoteEntity.class, NoteGroupEntity.class}, version = 1)
+@Database(entities = {NoteEntity.class, NoteGroupEntity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RoomNoteDao noteDao();
+
     public abstract RoomNoteGroupDao noteGroupDao();
 }
