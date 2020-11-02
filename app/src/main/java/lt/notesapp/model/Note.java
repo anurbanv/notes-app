@@ -1,6 +1,7 @@
 package lt.notesapp.model;
 
 import lt.notesapp.entity.NoteEntity;
+import lt.notesapp.rest.NoteObject;
 
 public class Note {
 
@@ -20,6 +21,12 @@ public class Note {
         this.noteGroup = noteGroup;
         this.title = title;
         this.content = content;
+    }
+
+    public Note(NoteObject noteObject) {
+        this.id = noteObject.getId();
+        this.title = noteObject.getTitle();
+        this.content = noteObject.getContent();
     }
 
     public Note(NoteGroup noteGroup) {

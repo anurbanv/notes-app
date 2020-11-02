@@ -1,9 +1,11 @@
 package lt.notesapp.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +14,29 @@ import lt.notesapp.entity.NoteEntity;
 import lt.notesapp.entity.NoteGroupEntity;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
+import lt.notesapp.rest.NoteObject;
+import lt.notesapp.rest.NotesApi;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static lt.notesapp.activity.MainActivity.APP_TAG;
 
 public class NoteDao {
 
     private final AppDatabase db;
+    private final NotesApi notesApi;
 
     public NoteDao(Context applicationContext) {
         db = Room.databaseBuilder(applicationContext, AppDatabase.class, "notes_app_table").build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://my-json-server.typicode.com/anurbanv/notes-app-api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        notesApi = retrofit.create(NotesApi.class);
     }
 
     public void insertNoteGroup(NoteGroup noteGroup) {
@@ -105,5 +123,32 @@ public class NoteDao {
     public void updateNote(Note note) {
         NoteEntity noteEntity = new NoteEntity(note);
         db.noteDao().update(noteEntity);
+    }
+
+    public List<Note> getNotesFromWebService() {
+        try {
+            Call<List<NoteObject>> apiNotes = notesApi.getNotes();
+
+            Response<List<NoteObject>> response = apiNotes.execute();
+
+            if (!response.isSuccessful()) {
+                Log.e(APP_TAG, String.valueOf(response.code()));
+                return new ArrayList<>();
+            }
+
+            List<NoteObject> body = response.body();
+
+            List<Note> notes = new ArrayList<>();
+
+            for (NoteObject noteObject : body) {
+                notes.add(new Note(noteObject));
+            }
+
+            return notes;
+
+        } catch (IOException e) {
+            Log.e(APP_TAG, "API error", e);
+            return new ArrayList<>();
+        }
     }
 }
