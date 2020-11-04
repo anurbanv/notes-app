@@ -1,9 +1,6 @@
 package lt.notesapp.dao;
 
-import android.content.Context;
 import android.util.Log;
-
-import androidx.room.Room;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -13,7 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import lt.notesapp.AppDatabase;
+import lt.notesapp.NotesApp;
 import lt.notesapp.entity.NoteEntity;
 import lt.notesapp.entity.NoteGroupEntity;
 import lt.notesapp.model.Note;
@@ -22,8 +22,6 @@ import lt.notesapp.rest.NoteObject;
 import lt.notesapp.rest.NotesApi;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static lt.notesapp.activity.MainActivity.APP_TAG;
 
@@ -33,21 +31,12 @@ public class NoteDao {
         void onNotesRetrieved(List<Note> notes);
     }
 
-    private final AppDatabase db;
-    private final NotesApi notesApi;
-    private final FirebaseFirestore fireStore;
+    @Inject AppDatabase db;
+    @Inject NotesApi notesApi;
+    @Inject FirebaseFirestore fireStore;
 
-    public NoteDao(Context applicationContext) {
-        db = Room.databaseBuilder(applicationContext, AppDatabase.class, "notes_app_table").build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://my-json-server.typicode.com/anurbanv/notes-app-api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        notesApi = retrofit.create(NotesApi.class);
-
-        fireStore = FirebaseFirestore.getInstance();
+    public NoteDao() {
+        NotesApp.getInstance().getAppComponent().inject(this);
     }
 
     public void insertNoteGroup(NoteGroup noteGroup) {

@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import lt.notesapp.NotesApp;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityNoteListBinding;
 import lt.notesapp.model.Note;
@@ -16,7 +19,7 @@ import lt.notesapp.model.Note;
 public class NoteListActivity extends AppCompatActivity {
 
     private ActivityNoteListBinding binding;
-    private NoteDao noteDao;
+    @Inject NoteDao noteDao;
     private int groupId;
 
     @Override
@@ -24,10 +27,9 @@ public class NoteListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNoteListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        NotesApp.getInstance().getAppComponent().inject(this);
 
         binding.btnBack.setOnClickListener(v -> finish());
-
-        noteDao = new NoteDao(getApplicationContext());
 
         Bundle extras = getIntent().getExtras();
         groupId = extras.getInt("groupId");
@@ -60,9 +62,7 @@ public class NoteListActivity extends AppCompatActivity {
     private void updateList() {
         AsyncTask.execute(() -> {
             List<Note> notes = noteDao.getNotesByGroupId(groupId);
-            runOnUiThread(() -> {
-                binding.noteList.update(notes);
-            });
+            runOnUiThread(() -> binding.noteList.update(notes));
         });
     }
 }

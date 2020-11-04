@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import lt.notesapp.NotesApp;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityGroupsBinding;
 import lt.notesapp.model.NoteGroup;
@@ -17,18 +20,18 @@ import lt.notesapp.model.NoteGroup;
 public class GroupsActivity extends AppCompatActivity {
 
     private ActivityGroupsBinding binding;
-    private NoteDao noteDao;
+    @Inject NoteDao noteDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityGroupsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        NotesApp.getInstance().getAppComponent().inject(this);
 
         binding.btnBack.setOnClickListener(v -> finish());
         binding.btnAdd.setOnClickListener(v ->
                 startActivity(new Intent(this, AddEditGroupActivity.class)));
-        noteDao = new NoteDao(getApplicationContext());
 
         binding.groupList.setOnEditClickListener(noteGroup -> {
             Intent intent = new Intent(this, AddEditGroupActivity.class);

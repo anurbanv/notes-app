@@ -7,6 +7,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import javax.inject.Inject;
+
+import lt.notesapp.NotesApp;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityAddEditGroupBinding;
 import lt.notesapp.model.NoteGroup;
@@ -14,16 +17,16 @@ import lt.notesapp.model.NoteGroup;
 public class AddEditGroupActivity extends AppCompatActivity {
 
     private ActivityAddEditGroupBinding binding;
+    @Inject NoteDao noteDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddEditGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        NotesApp.getInstance().getAppComponent().inject(this);
 
         binding.btnBack.setOnClickListener(v -> finish());
-
-        NoteDao noteDao = new NoteDao(getApplicationContext());
 
         Bundle extras = getIntent().getExtras();
 
