@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import lt.notesapp.events.OnGroupClickListener;
+import lt.notesapp.events.OnGroupDeleteListener;
+import lt.notesapp.events.OnGroupEditListener;
 import lt.notesapp.model.NoteGroup;
 import lt.notesapp.view.NoteGroupView;
 
@@ -17,38 +20,26 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.ViewHolder> {
 
-    public interface OnEditClickListener {
-        void onEditClick(NoteGroup noteGroup);
-    }
-
-    public interface OnDeleteClickListener {
-        void onDeleteClick(NoteGroup noteGroup);
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(NoteGroup noteGroup);
-    }
-
     private List<NoteGroup> noteGroups = new ArrayList<>();
-    private OnEditClickListener onEditClickListener;
-    private OnDeleteClickListener onDeleteClickListener;
-    private OnItemClickListener onItemClickListener;
+    private OnGroupEditListener onGroupEditListener;
+    private OnGroupDeleteListener onGroupDeleteListener;
+    private OnGroupClickListener onGroupClickListener;
 
     public void setNoteGroups(List<NoteGroup> noteGroups) {
         this.noteGroups = noteGroups;
         notifyDataSetChanged();
     }
 
-    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
-        this.onEditClickListener = onEditClickListener;
+    public void setOnGroupEditListener(OnGroupEditListener onGroupEditListener) {
+        this.onGroupEditListener = onGroupEditListener;
     }
 
-    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
-        this.onDeleteClickListener = onDeleteClickListener;
+    public void setOnGroupDeleteListener(OnGroupDeleteListener onGroupDeleteListener) {
+        this.onGroupDeleteListener = onGroupDeleteListener;
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public void setOnGroupClickListener(OnGroupClickListener onGroupClickListener) {
+        this.onGroupClickListener = onGroupClickListener;
     }
 
     @NonNull
@@ -65,15 +56,15 @@ public class NoteGroupsAdapter extends RecyclerView.Adapter<NoteGroupsAdapter.Vi
         holder.noteGroupView.update(noteGroup);
 
         holder.noteGroupView.setOnEditClickListener(v -> {
-            if (onEditClickListener != null) onEditClickListener.onEditClick(noteGroup);
+            if (onGroupEditListener != null) onGroupEditListener.onGroupEdit(noteGroup);
         });
 
         holder.noteGroupView.setOnDeleteClickListener(v -> {
-            if (onDeleteClickListener != null) onDeleteClickListener.onDeleteClick(noteGroup);
+            if (onGroupDeleteListener != null) onGroupDeleteListener.onGroupDelete(noteGroup);
         });
 
         holder.noteGroupView.setOnClickListener(v -> {
-            if (onItemClickListener != null) onItemClickListener.onItemClick(noteGroup);
+            if (onGroupClickListener != null) onGroupClickListener.onGroupClick(noteGroup);
         });
     }
 

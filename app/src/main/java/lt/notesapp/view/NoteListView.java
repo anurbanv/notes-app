@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import lt.notesapp.adapter.NotesAdapter;
+import lt.notesapp.events.OnNoteDeleteListener;
+import lt.notesapp.events.OnNoteEditListener;
 import lt.notesapp.model.Note;
 
 public class NoteListView extends RecyclerView {
@@ -39,12 +41,12 @@ public class NoteListView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public void setOnDeleteClickListener(NotesAdapter.OnDeleteClickListener listener) {
-        adapter.setOnDeleteClickListener(listener);
+    public void setOnDeleteClickListener(OnNoteDeleteListener listener) {
+        adapter.setOnNoteDeleteListener(listener);
     }
 
-    public void setOnEditClickListener(NotesAdapter.OnEditClickListener listener) {
-        adapter.setOnEditClickListener(listener);
+    public void setOnEditClickListener(OnNoteEditListener listener) {
+        adapter.setOnNoteEditListener(listener);
     }
 
     public void update(List<Note> notes) {

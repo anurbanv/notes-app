@@ -39,6 +39,14 @@ public class NoteDao {
         NotesApp.getInstance().getAppComponent().inject(this);
     }
 
+    public void insertOrUpdateGroup(NoteGroup noteGroup) {
+        if (noteGroup.getId() == 0) {
+            insertNoteGroup(noteGroup);
+        } else {
+            updateNoteGroup(noteGroup);
+        }
+    }
+
     public void insertNoteGroup(NoteGroup noteGroup) {
         NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
         db.noteGroupDao().insert(entity);
@@ -105,6 +113,14 @@ public class NoteDao {
     public void insertNote(Note note) {
         NoteEntity entity = new NoteEntity(note.getNoteGroup().getId(), note.getTitle(), note.getContent());
         db.noteDao().insert(entity);
+    }
+
+    public void insertOrUpdateNote(Note note) {
+        if (note.getId() == 0) {
+            insertNote(note);
+        } else {
+            updateNote(note);
+        }
     }
 
     public void deleteNote(Note note) {

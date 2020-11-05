@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import lt.notesapp.events.OnNoteDeleteListener;
+import lt.notesapp.events.OnNoteEditListener;
 import lt.notesapp.model.Note;
 import lt.notesapp.view.NoteView;
 
@@ -17,29 +19,21 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
-    public interface OnDeleteClickListener {
-        void onDeleteClick(Note note);
-    }
-
-    public interface OnEditClickListener {
-        void onEditClick(Note note);
-    }
-
     private List<Note> notes = new ArrayList<>();
-    private OnDeleteClickListener onDeleteClickListener;
-    private OnEditClickListener onEditClickListener;
+    private OnNoteDeleteListener onNoteDeleteListener;
+    private OnNoteEditListener onNoteEditListener;
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
-        this.onDeleteClickListener = onDeleteClickListener;
+    public void setOnNoteDeleteListener(OnNoteDeleteListener onNoteDeleteListener) {
+        this.onNoteDeleteListener = onNoteDeleteListener;
     }
 
-    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
-        this.onEditClickListener = onEditClickListener;
+    public void setOnNoteEditListener(OnNoteEditListener onNoteEditListener) {
+        this.onNoteEditListener = onNoteEditListener;
     }
 
     @NonNull
@@ -56,11 +50,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         holder.noteView.update(note);
 
         holder.noteView.setOnDeleteClickListener(v -> {
-            if (onDeleteClickListener != null) onDeleteClickListener.onDeleteClick(note);
+            if (onNoteDeleteListener != null) onNoteDeleteListener.onNoteDelete(note);
         });
 
         holder.noteView.setOnEditClickListener(v -> {
-            if (onEditClickListener != null) onEditClickListener.onEditClick(note);
+            if (onNoteEditListener != null) onNoteEditListener.onNoteEdit(note);
         });
     }
 

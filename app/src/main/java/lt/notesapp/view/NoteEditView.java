@@ -10,17 +10,14 @@ import androidx.annotation.Nullable;
 
 import lt.notesapp.R;
 import lt.notesapp.databinding.ViewNoteEditBinding;
+import lt.notesapp.events.OnNoteSubmitListener;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class NoteEditView extends LinearLayout {
 
-    public interface OnSubmitListener {
-        void onSubmit(Note note);
-    }
-
     private ViewNoteEditBinding binding;
-    private OnSubmitListener onSubmitListener;
+    private OnNoteSubmitListener onNoteSubmitListener;
     private Note note;
 
     public NoteEditView(Context context) {
@@ -44,23 +41,25 @@ public class NoteEditView extends LinearLayout {
         binding = ViewNoteEditBinding.bind(view);
 
         binding.btnSubmit.setOnClickListener(v -> {
-            if (onSubmitListener != null) {
+            if (onNoteSubmitListener != null) {
                 String title = binding.etTitle.getText().toString();
                 String content = binding.etContent.getText().toString();
                 note.setTitle(title);
                 note.setContent(content);
-                onSubmitListener.onSubmit(note);
+                onNoteSubmitListener.onNoteSubmit(note);
             }
         });
     }
 
-    public void setOnSubmitListener(OnSubmitListener onSubmitListener) {
-        this.onSubmitListener = onSubmitListener;
+    public void setOnNoteSubmitListener(OnNoteSubmitListener onNoteSubmitListener) {
+        this.onNoteSubmitListener = onNoteSubmitListener;
     }
 
     public void newNote(NoteGroup noteGroup) {
         note = new Note(noteGroup);
         binding.tvTitle.setText("New note");
+        binding.etTitle.setText("");
+        binding.etContent.setText("");
         binding.btnSubmit.setText("Create");
     }
 

@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import lt.notesapp.adapter.NoteGroupsAdapter;
+import lt.notesapp.events.OnGroupClickListener;
+import lt.notesapp.events.OnGroupDeleteListener;
+import lt.notesapp.events.OnGroupEditListener;
 import lt.notesapp.model.NoteGroup;
 
 public class NoteGroupListView extends RecyclerView {
@@ -39,16 +42,16 @@ public class NoteGroupListView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public void setOnEditClickListener(NoteGroupsAdapter.OnEditClickListener listener) {
-        adapter.setOnEditClickListener(listener);
+    public void setOnEditClickListener(OnGroupEditListener listener) {
+        adapter.setOnGroupEditListener(listener);
     }
 
-    public void setOnDeleteClickListener(NoteGroupsAdapter.OnDeleteClickListener listener) {
-        adapter.setOnDeleteClickListener(listener);
+    public void setOnDeleteClickListener(OnGroupDeleteListener listener) {
+        adapter.setOnGroupDeleteListener(listener);
     }
 
-    public void setOnItemClickListener(NoteGroupsAdapter.OnItemClickListener listener) {
-        adapter.setOnItemClickListener(listener);
+    public void setOnItemClickListener(OnGroupClickListener listener) {
+        adapter.setOnGroupClickListener(listener);
     }
 
     public void update(List<NoteGroup> noteGroups) {

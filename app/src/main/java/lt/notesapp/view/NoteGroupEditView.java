@@ -10,16 +10,13 @@ import androidx.annotation.Nullable;
 
 import lt.notesapp.R;
 import lt.notesapp.databinding.ViewNoteGroupEditBinding;
+import lt.notesapp.events.OnGroupSubmitListener;
 import lt.notesapp.model.NoteGroup;
 
 public class NoteGroupEditView extends LinearLayout {
 
-    public interface OnSubmitListener {
-        void onSubmit(NoteGroup noteGroup);
-    }
-
     private ViewNoteGroupEditBinding binding;
-    private OnSubmitListener onSubmitListener;
+    private OnGroupSubmitListener onGroupSubmitListener;
 
     public NoteGroupEditView(Context context) {
         super(context);
@@ -41,20 +38,21 @@ public class NoteGroupEditView extends LinearLayout {
         View view = inflater.inflate(R.layout.view_note_group_edit, this, true);
         binding = ViewNoteGroupEditBinding.bind(view);
         binding.btnSubmit.setOnClickListener(v -> {
-            if (onSubmitListener != null) {
+            if (onGroupSubmitListener != null) {
                 String title = binding.etTitle.getText().toString();
                 NoteGroup noteGroup = new NoteGroup(title);
-                onSubmitListener.onSubmit(noteGroup);
+                onGroupSubmitListener.onGroupSubmit(noteGroup);
             }
         });
     }
 
-    public void setOnSubmitListener(OnSubmitListener onSubmitListener) {
-        this.onSubmitListener = onSubmitListener;
+    public void setOnGroupSubmitListener(OnGroupSubmitListener onGroupSubmitListener) {
+        this.onGroupSubmitListener = onGroupSubmitListener;
     }
 
     public void newGroup() {
         binding.tvTitle.setText("New group");
+        binding.etTitle.setText("");
         binding.btnSubmit.setText("Create");
     }
 

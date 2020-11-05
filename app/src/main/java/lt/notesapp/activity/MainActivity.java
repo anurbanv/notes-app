@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnStartGroups.setOnClickListener(v -> {
-            Intent intent = new Intent(this, GroupsActivity.class);
+        binding.btnStart.setOnClickListener(v -> {
+            Intent intent = new Intent(this, NotesActivity.class);
             startActivity(intent);
         });
     }

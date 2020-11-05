@@ -19,10 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GroupsActivity" />
-        <activity android:name=".activity.AddEditGroupActivity" />
-        <activity android:name=".activity.NoteListActivity" />
-        <activity android:name=".activity.AddEditNoteActivity" />
+        <activity android:name=".activity.NotesActivity" />
     </application>
 
 </manifest>
