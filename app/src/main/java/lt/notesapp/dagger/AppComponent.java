@@ -3,6 +3,7 @@ package lt.notesapp.dagger;
 import dagger.Component;
 import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.dao.NoteDao;
+import lt.notesapp.fragment.AddEditGroupFragment;
 import lt.notesapp.fragment.GroupsFragment;
 
 @Component(modules = {
@@ -21,4 +22,6 @@ public interface AppComponent {
     void inject(NotesActivity notesActivity);
 
     void inject(GroupsFragment groupsFragment);
+
+    void inject(AddEditGroupFragment addEditGroupFragment);
 }

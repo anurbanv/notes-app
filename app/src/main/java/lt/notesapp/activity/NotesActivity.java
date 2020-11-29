@@ -21,7 +21,6 @@ import lt.notesapp.fragment.AddEditNoteFragment;
 import lt.notesapp.fragment.GroupsFragment;
 import lt.notesapp.fragment.NotesFragment;
 import lt.notesapp.model.Note;
-import lt.notesapp.model.NoteGroup;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -40,16 +39,9 @@ public class NotesActivity extends AppCompatActivity {
         appComponent.inject(this);
 
         groupsFragment = new GroupsFragment(this, appComponent);
-        addEditGroupFragment = new AddEditGroupFragment(this);
+        addEditGroupFragment = new AddEditGroupFragment(this, appComponent);
         notesFragment = new NotesFragment(this);
         addEditNoteFragment = new AddEditNoteFragment(this);
-
-        addEditGroupFragment.setOnBackListener(v -> {
-            replaceFragment(groupsFragment);
-            groupsFragment.updateGroupList();
-        });
-
-        addEditGroupFragment.setOnGroupSubmitListener(this::addOrUpdateGroup);
 
         notesFragment.setOnBackListener(v -> {
             replaceFragment(groupsFragment);
@@ -79,6 +71,10 @@ public class NotesActivity extends AppCompatActivity {
         groupsFragment.updateGroupList();
     }
 
+    public void showGroupsFragment() {
+        replaceFragment(groupsFragment);
+    }
+
     public void showAddEditGroupFragment() {
         replaceFragment(addEditGroupFragment);
     }
@@ -95,14 +91,8 @@ public class NotesActivity extends AppCompatActivity {
         return addEditGroupFragment;
     }
 
-    private void addOrUpdateGroup(NoteGroup noteGroup) {
-        AsyncTask.execute(() -> {
-            noteDao.insertOrUpdateGroup(noteGroup);
-            runOnUiThread(() -> {
-                replaceFragment(groupsFragment);
-                groupsFragment.updateGroupList();
-            });
-        });
+    public GroupsFragment getGroupsFragment() {
+        return groupsFragment;
     }
 
     private void updateNoteList() {
