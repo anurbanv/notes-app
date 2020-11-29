@@ -40,7 +40,7 @@ public class NotesFragment extends Fragment {
 
         binding.btnBack.setOnClickListener(v -> {
             notesActivity.showGroupsFragment();
-            notesActivity.getGroupsFragment().updateGroupList();
+            notesActivity.getGroupsPresenter().updateGroupList();
         });
 
         binding.btnAdd.setOnClickListener(v -> {

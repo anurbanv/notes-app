@@ -36,14 +36,14 @@ public class AddEditGroupFragment extends Fragment {
 
         binding.btnBack.setOnClickListener(v -> {
             notesActivity.showGroupsFragment();
-            notesActivity.getGroupsFragment().updateGroupList();
+            notesActivity.getGroupsPresenter().updateGroupList();
         });
 
         binding.vEditGroup.setOnGroupSubmitListener(noteGroup -> AsyncTask.execute(() -> {
             noteDao.insertOrUpdateGroup(noteGroup);
             container.post(() -> {
                 notesActivity.showGroupsFragment();
-                notesActivity.getGroupsFragment().updateGroupList();
+                notesActivity.getGroupsPresenter().updateGroupList();
             });
         }));
 
