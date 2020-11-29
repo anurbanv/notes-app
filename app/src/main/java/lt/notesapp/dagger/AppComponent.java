@@ -5,6 +5,7 @@ import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.fragment.AddEditGroupFragment;
 import lt.notesapp.fragment.GroupsFragment;
+import lt.notesapp.fragment.NotesFragment;
 
 @Component(modules = {
         NoteDaoModule.class,
@@ -24,4 +25,6 @@ public interface AppComponent {
     void inject(GroupsFragment groupsFragment);
 
     void inject(AddEditGroupFragment addEditGroupFragment);
+
+    void inject(NotesFragment notesFragment);
 }

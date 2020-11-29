@@ -7,8 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import lt.notesapp.NotesApp;
@@ -40,29 +38,12 @@ public class NotesActivity extends AppCompatActivity {
 
         groupsFragment = new GroupsFragment(this, appComponent);
         addEditGroupFragment = new AddEditGroupFragment(this, appComponent);
-        notesFragment = new NotesFragment(this);
+        notesFragment = new NotesFragment(this, appComponent);
         addEditNoteFragment = new AddEditNoteFragment(this);
-
-        notesFragment.setOnBackListener(v -> {
-            replaceFragment(groupsFragment);
-            groupsFragment.updateGroupList();
-        });
-
-        notesFragment.setOnAddListener(v -> {
-            replaceFragment(addEditNoteFragment);
-            addEditNoteFragment.createNote(notesFragment.getNoteGroup());
-        });
-
-        notesFragment.setOnNoteDeleteListener(this::deleteNote);
-
-        notesFragment.setOnNoteEditListener(note -> {
-            replaceFragment(addEditNoteFragment);
-            addEditNoteFragment.editNote(note);
-        });
 
         addEditNoteFragment.setOnBackListener(v -> {
             replaceFragment(notesFragment);
-            updateNoteList();
+            notesFragment.updateNotes();
         });
 
         addEditNoteFragment.setOnNoteSubmitListener(this::addOrUpdateNote);
@@ -83,6 +64,10 @@ public class NotesActivity extends AppCompatActivity {
         replaceFragment(notesFragment);
     }
 
+    public void showAddEditNoteFragment() {
+        replaceFragment(addEditNoteFragment);
+    }
+
     public NotesFragment getNotesFragment() {
         return notesFragment;
     }
@@ -95,18 +80,8 @@ public class NotesActivity extends AppCompatActivity {
         return groupsFragment;
     }
 
-    private void updateNoteList() {
-        AsyncTask.execute(() -> {
-            List<Note> notes = noteDao.getNotesByGroupId(notesFragment.getNoteGroup().getId());
-            runOnUiThread(() -> notesFragment.updateNotes(notes));
-        });
-    }
-
-    private void deleteNote(Note note) {
-        AsyncTask.execute(() -> {
-            noteDao.deleteNote(note);
-            runOnUiThread(this::updateNoteList);
-        });
+    public AddEditNoteFragment getAddEditNoteFragment() {
+        return addEditNoteFragment;
     }
 
     private void addOrUpdateNote(Note note) {
@@ -114,7 +89,7 @@ public class NotesActivity extends AppCompatActivity {
             noteDao.insertOrUpdateNote(note);
             runOnUiThread(() -> {
                 replaceFragment(notesFragment);
-                updateNoteList();
+                notesFragment.updateNotes();
             });
         });
     }
