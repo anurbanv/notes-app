@@ -1,5 +1,6 @@
 package lt.notesapp.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,29 +10,44 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import javax.inject.Inject;
+
 import lt.notesapp.activity.NotesActivity;
+import lt.notesapp.dagger.AppComponent;
+import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.FragmentAddEditNoteBinding;
-import lt.notesapp.events.OnNoteSubmitListener;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class AddEditNoteFragment extends Fragment {
 
+    @Inject NoteDao noteDao;
     private FragmentAddEditNoteBinding binding;
-    private View.OnClickListener onBackListener;
-    private OnNoteSubmitListener onNoteSubmitListener;
-    private NotesActivity notesActivity;
+    private final NotesActivity notesActivity;
 
-    public AddEditNoteFragment(NotesActivity notesActivity) {
+    public AddEditNoteFragment(NotesActivity notesActivity, AppComponent appComponent) {
         this.notesActivity = notesActivity;
+        appComponent.inject(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddEditNoteBinding.inflate(inflater);
-        binding.btnBack.setOnClickListener(onBackListener);
-        binding.vNoteEdit.setOnNoteSubmitListener(onNoteSubmitListener);
+
+        binding.btnBack.setOnClickListener(v -> {
+            notesActivity.showNotesFragment();
+            notesActivity.getNotesFragment().updateNotes();
+        });
+
+        binding.vNoteEdit.setOnNoteSubmitListener(note -> AsyncTask.execute(() -> {
+            noteDao.insertOrUpdateNote(note);
+            container.post(() -> {
+                notesActivity.showNotesFragment();
+                notesActivity.getNotesFragment().updateNotes();
+            });
+        }));
+
         return binding.getRoot();
     }
 
@@ -41,13 +57,5 @@ public class AddEditNoteFragment extends Fragment {
 
     public void editNote(Note note) {
         binding.vNoteEdit.editNote(note);
-    }
-
-    public void setOnBackListener(View.OnClickListener onBackListener) {
-        this.onBackListener = onBackListener;
-    }
-
-    public void setOnNoteSubmitListener(OnNoteSubmitListener onNoteSubmitListener) {
-        this.onNoteSubmitListener = onNoteSubmitListener;
     }
 }

@@ -18,7 +18,6 @@ import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.dagger.AppComponent;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.FragmentGroupsBinding;
-import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
 
 public class GroupsFragment extends Fragment {
@@ -56,12 +55,8 @@ public class GroupsFragment extends Fragment {
 
         binding.groupList.setOnItemClickListener(noteGroup -> {
             notesActivity.showNotesFragment();
-            NotesFragment notesFragment = notesActivity.getNotesFragment();
-            notesFragment.setNoteGroup(noteGroup);
-            AsyncTask.execute(() -> {
-                List<Note> notes = noteDao.getNotesByGroupId(notesFragment.getNoteGroup().getId());
-                container.post(() -> notesFragment.updateNotes(notes));
-            });
+            notesActivity.getNotesFragment().setNoteGroup(noteGroup);
+            notesActivity.getNotesFragment().updateNotes();
         });
 
         return binding.getRoot();

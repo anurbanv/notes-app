@@ -1,6 +1,5 @@
 package lt.notesapp.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,7 +17,6 @@ import lt.notesapp.fragment.AddEditGroupFragment;
 import lt.notesapp.fragment.AddEditNoteFragment;
 import lt.notesapp.fragment.GroupsFragment;
 import lt.notesapp.fragment.NotesFragment;
-import lt.notesapp.model.Note;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -39,16 +37,9 @@ public class NotesActivity extends AppCompatActivity {
         groupsFragment = new GroupsFragment(this, appComponent);
         addEditGroupFragment = new AddEditGroupFragment(this, appComponent);
         notesFragment = new NotesFragment(this, appComponent);
-        addEditNoteFragment = new AddEditNoteFragment(this);
+        addEditNoteFragment = new AddEditNoteFragment(this, appComponent);
 
-        addEditNoteFragment.setOnBackListener(v -> {
-            replaceFragment(notesFragment);
-            notesFragment.updateNotes();
-        });
-
-        addEditNoteFragment.setOnNoteSubmitListener(this::addOrUpdateNote);
-
-        replaceFragment(groupsFragment);
+        showGroupsFragment();
         groupsFragment.updateGroupList();
     }
 
@@ -68,30 +59,20 @@ public class NotesActivity extends AppCompatActivity {
         replaceFragment(addEditNoteFragment);
     }
 
-    public NotesFragment getNotesFragment() {
-        return notesFragment;
+    public GroupsFragment getGroupsFragment() {
+        return groupsFragment;
     }
 
     public AddEditGroupFragment getAddEditGroupFragment() {
         return addEditGroupFragment;
     }
 
-    public GroupsFragment getGroupsFragment() {
-        return groupsFragment;
+    public NotesFragment getNotesFragment() {
+        return notesFragment;
     }
 
     public AddEditNoteFragment getAddEditNoteFragment() {
         return addEditNoteFragment;
-    }
-
-    private void addOrUpdateNote(Note note) {
-        AsyncTask.execute(() -> {
-            noteDao.insertOrUpdateNote(note);
-            runOnUiThread(() -> {
-                replaceFragment(notesFragment);
-                notesFragment.updateNotes();
-            });
-        });
     }
 
     private void replaceFragment(Fragment fragment) {
