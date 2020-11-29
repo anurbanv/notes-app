@@ -32,12 +32,12 @@ public class NotesPresenter {
 
     public void onNoteAddClick() {
         notesActivity.showAddEditNoteFragment();
-        notesActivity.getAddEditNoteFragment().createNote(noteGroup);
+        notesActivity.getAddEditNotePresenter().createNote(noteGroup);
     }
 
     public void onNoteEditClick(Note note) {
         notesActivity.showAddEditNoteFragment();
-        notesActivity.getAddEditNoteFragment().editNote(note);
+        notesActivity.getAddEditNotePresenter().editNote(note);
     }
 
     public void onNoteDeleteClick(Note note) {
