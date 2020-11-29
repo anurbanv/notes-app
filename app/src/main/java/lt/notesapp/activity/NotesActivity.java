@@ -21,6 +21,7 @@ import lt.notesapp.fragment.AddEditNoteFragment;
 import lt.notesapp.fragment.GroupsFragment;
 import lt.notesapp.fragment.GroupsPresenter;
 import lt.notesapp.fragment.NotesFragment;
+import lt.notesapp.fragment.NotesPresenter;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class NotesActivity extends AppCompatActivity {
     private AddEditNoteFragment addEditNoteFragment;
     private GroupsPresenter groupsPresenter;
     private AddEditGroupPresenter addEditGroupPresenter;
+    private NotesPresenter notesPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,10 +45,11 @@ public class NotesActivity extends AppCompatActivity {
 
         groupsPresenter = new GroupsPresenter(this, noteDao);
         addEditGroupPresenter = new AddEditGroupPresenter(this, noteDao);
+        notesPresenter = new NotesPresenter(this, noteDao);
 
         groupsFragment = new GroupsFragment(groupsPresenter, handler);
         addEditGroupFragment = new AddEditGroupFragment(addEditGroupPresenter);
-        notesFragment = new NotesFragment(this, appComponent);
+        notesFragment = new NotesFragment(notesPresenter, handler);
         addEditNoteFragment = new AddEditNoteFragment(this, appComponent);
 
         showGroupsFragment();
@@ -77,8 +80,8 @@ public class NotesActivity extends AppCompatActivity {
         return addEditGroupPresenter;
     }
 
-    public NotesFragment getNotesFragment() {
-        return notesFragment;
+    public NotesPresenter getNotesPresenter() {
+        return notesPresenter;
     }
 
     public AddEditNoteFragment getAddEditNoteFragment() {

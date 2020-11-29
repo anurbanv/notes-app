@@ -37,14 +37,14 @@ public class AddEditNoteFragment extends Fragment {
 
         binding.btnBack.setOnClickListener(v -> {
             notesActivity.showNotesFragment();
-            notesActivity.getNotesFragment().updateNotes();
+            notesActivity.getNotesPresenter().updateNotes();
         });
 
         binding.vNoteEdit.setOnNoteSubmitListener(note -> AsyncTask.execute(() -> {
             noteDao.insertOrUpdateNote(note);
             container.post(() -> {
                 notesActivity.showNotesFragment();
-                notesActivity.getNotesFragment().updateNotes();
+                notesActivity.getNotesPresenter().updateNotes();
             });
         }));
 

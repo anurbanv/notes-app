@@ -46,8 +46,8 @@ public class GroupsPresenter {
 
     public void onGroupClick(NoteGroup noteGroup) {
         notesActivity.showNotesFragment();
-        notesActivity.getNotesFragment().setNoteGroup(noteGroup);
-        notesActivity.getNotesFragment().updateNotes();
+        notesActivity.getNotesPresenter().setNoteGroup(noteGroup);
+        notesActivity.getNotesPresenter().updateNotes();
     }
 
     public void updateGroupList() {
