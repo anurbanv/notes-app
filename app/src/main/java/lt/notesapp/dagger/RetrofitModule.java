@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RetrofitModule {
 
+    @ComponentScope
     @Provides
     Retrofit getRetrofit() {
         return new Retrofit.Builder()

@@ -11,6 +11,7 @@ import lt.notesapp.AppDatabase;
 @Module(includes = ContextModule.class)
 public class AppDatabaseModule {
 
+    @ComponentScope
     @Provides
     AppDatabase getAppDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, "notes_app_table").build();

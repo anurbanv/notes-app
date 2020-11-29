@@ -7,6 +7,7 @@ import lt.notesapp.dao.NoteDao;
 @Module
 public class NoteDaoModule {
 
+    @ComponentScope
     @Provides
     NoteDao getNoteDao() {
         return new NoteDao();

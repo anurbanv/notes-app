@@ -12,6 +12,7 @@ import lt.notesapp.dao.NoteDao;
         NotesApiModule.class,
         FireStoreModule.class,
 })
+@ComponentScope
 public interface AppComponent {
 
     void inject(NoteDao noteDao);
