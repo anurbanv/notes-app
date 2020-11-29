@@ -1,6 +1,5 @@
 package lt.notesapp.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,43 +9,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import javax.inject.Inject;
-
-import lt.notesapp.activity.NotesActivity;
-import lt.notesapp.dagger.AppComponent;
-import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.FragmentAddEditGroupBinding;
 import lt.notesapp.model.NoteGroup;
 
 public class AddEditGroupFragment extends Fragment {
 
-    @Inject NoteDao noteDao;
     private FragmentAddEditGroupBinding binding;
-    private final NotesActivity notesActivity;
+    private final AddEditGroupPresenter presenter;
 
-    public AddEditGroupFragment(NotesActivity notesActivity, AppComponent appComponent) {
-        this.notesActivity = notesActivity;
-        appComponent.inject(this);
+    public AddEditGroupFragment(AddEditGroupPresenter presenter) {
+        presenter.setAddEditGroupFragment(this);
+        this.presenter = presenter;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddEditGroupBinding.inflate(inflater);
-
-        binding.btnBack.setOnClickListener(v -> {
-            notesActivity.showGroupsFragment();
-            notesActivity.getGroupsPresenter().updateGroupList();
-        });
-
-        binding.vEditGroup.setOnGroupSubmitListener(noteGroup -> AsyncTask.execute(() -> {
-            noteDao.insertOrUpdateGroup(noteGroup);
-            container.post(() -> {
-                notesActivity.showGroupsFragment();
-                notesActivity.getGroupsPresenter().updateGroupList();
-            });
-        }));
-
+        binding.btnBack.setOnClickListener(v -> presenter.onBackClick());
+        binding.vEditGroup.setOnGroupSubmitListener(presenter::onGroupSubmit);
         return binding.getRoot();
     }
 

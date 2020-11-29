@@ -1,6 +1,7 @@
 package lt.notesapp.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,12 @@ public class GroupsFragment extends Fragment {
 
     private FragmentGroupsBinding binding;
     private final GroupsPresenter presenter;
+    private final Handler handler;
 
-    public GroupsFragment(GroupsPresenter groupsPresenter) {
-        groupsPresenter.setGroupsFragment(this);
-        presenter = groupsPresenter;
+    public GroupsFragment(GroupsPresenter presenter, Handler handler) {
+        presenter.setGroupsFragment(this);
+        this.presenter = presenter;
+        this.handler = handler;
     }
 
     @Nullable
@@ -37,6 +40,6 @@ public class GroupsFragment extends Fragment {
     }
 
     public void updateGroupList(List<NoteGroup> groups) {
-        binding.groupList.update(groups);
+        handler.post(() -> binding.groupList.update(groups));
     }
 }

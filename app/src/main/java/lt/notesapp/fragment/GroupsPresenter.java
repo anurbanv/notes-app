@@ -1,7 +1,6 @@
 package lt.notesapp.fragment;
 
 import android.os.AsyncTask;
-import android.os.Handler;
 
 import java.util.List;
 
@@ -13,13 +12,11 @@ public class GroupsPresenter {
 
     private final NotesActivity notesActivity;
     private final NoteDao noteDao;
-    private final Handler handler;
     private GroupsFragment groupsFragment;
 
-    public GroupsPresenter(NotesActivity notesActivity, NoteDao noteDao, Handler handler) {
+    public GroupsPresenter(NotesActivity notesActivity, NoteDao noteDao) {
         this.notesActivity = notesActivity;
         this.noteDao = noteDao;
-        this.handler = handler;
     }
 
     public void setGroupsFragment(GroupsFragment groupsFragment) {
@@ -32,12 +29,12 @@ public class GroupsPresenter {
 
     public void onAddGroupClick() {
         notesActivity.showAddEditGroupFragment();
-        notesActivity.getAddEditGroupFragment().createGroup();
+        notesActivity.getAddEditGroupPresenter().createGroup();
     }
 
     public void onEditGroupClick(NoteGroup noteGroup) {
         notesActivity.showAddEditGroupFragment();
-        notesActivity.getAddEditGroupFragment().editGroup(noteGroup);
+        notesActivity.getAddEditGroupPresenter().editGroup(noteGroup);
     }
 
     public void onDeleteGroupClick(NoteGroup noteGroup) {
@@ -56,7 +53,7 @@ public class GroupsPresenter {
     public void updateGroupList() {
         AsyncTask.execute(() -> {
             List<NoteGroup> allGroups = noteDao.getAllGroups();
-            handler.post(() -> groupsFragment.updateGroupList(allGroups));
+            groupsFragment.updateGroupList(allGroups);
         });
     }
 }
