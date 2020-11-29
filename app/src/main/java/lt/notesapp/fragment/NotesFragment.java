@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
+import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.databinding.FragmentNoteListBinding;
 import lt.notesapp.events.OnNoteDeleteListener;
 import lt.notesapp.events.OnNoteEditListener;
@@ -25,6 +26,11 @@ public class NotesFragment extends Fragment {
     private OnNoteEditListener onNoteEditListener;
     private OnNoteDeleteListener onNoteDeleteListener;
     private NoteGroup noteGroup;
+    private NotesActivity notesActivity;
+
+    public NotesFragment(NotesActivity notesActivity) {
+        this.notesActivity = notesActivity;
+    }
 
     @Nullable
     @Override

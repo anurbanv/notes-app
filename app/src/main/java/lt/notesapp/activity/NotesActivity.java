@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import lt.notesapp.NotesApp;
 import lt.notesapp.R;
+import lt.notesapp.dagger.AppComponent;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityNotesBinding;
 import lt.notesapp.fragment.AddEditGroupFragment;
@@ -35,42 +36,24 @@ public class NotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityNotesBinding binding = ActivityNotesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        NotesApp.getInstance().getAppComponent().inject(this);
+        AppComponent appComponent = NotesApp.getInstance().getAppComponent();
+        appComponent.inject(this);
 
-        groupsFragment = new GroupsFragment();
-        addEditGroupFragment = new AddEditGroupFragment();
-        notesFragment = new NotesFragment();
-        addEditNoteFragment = new AddEditNoteFragment();
+        groupsFragment = new GroupsFragment(this, appComponent);
+        addEditGroupFragment = new AddEditGroupFragment(this);
+        notesFragment = new NotesFragment(this);
+        addEditNoteFragment = new AddEditNoteFragment(this);
 
         addEditGroupFragment.setOnBackListener(v -> {
             replaceFragment(groupsFragment);
-            updateGroupList();
+            groupsFragment.updateGroupList();
         });
 
         addEditGroupFragment.setOnGroupSubmitListener(this::addOrUpdateGroup);
 
-        groupsFragment.setOnBackListener(v -> finish());
-        groupsFragment.setOnAddGroupListener(v -> {
-            replaceFragment(addEditGroupFragment);
-            addEditGroupFragment.createGroup();
-        });
-
-        groupsFragment.setOnGroupEditListener(noteGroup -> {
-            replaceFragment(addEditGroupFragment);
-            addEditGroupFragment.editGroup(noteGroup);
-        });
-
-        groupsFragment.setOnGroupDeleteListener(this::deleteGroup);
-
-        groupsFragment.setOnGroupClickListener(noteGroup -> {
-            replaceFragment(notesFragment);
-            notesFragment.setNoteGroup(noteGroup);
-            updateNoteList();
-        });
-
         notesFragment.setOnBackListener(v -> {
             replaceFragment(groupsFragment);
-            updateGroupList();
+            groupsFragment.updateGroupList();
         });
 
         notesFragment.setOnAddListener(v -> {
@@ -93,21 +76,23 @@ public class NotesActivity extends AppCompatActivity {
         addEditNoteFragment.setOnNoteSubmitListener(this::addOrUpdateNote);
 
         replaceFragment(groupsFragment);
-        updateGroupList();
+        groupsFragment.updateGroupList();
     }
 
-    private void updateGroupList() {
-        AsyncTask.execute(() -> {
-            List<NoteGroup> groups = noteDao.getAllGroups();
-            runOnUiThread(() -> groupsFragment.updateGroupList(groups));
-        });
+    public void showAddEditGroupFragment() {
+        replaceFragment(addEditGroupFragment);
     }
 
-    private void deleteGroup(NoteGroup noteGroup) {
-        AsyncTask.execute(() -> {
-            noteDao.deleteNoteGroup(noteGroup);
-            runOnUiThread(this::updateGroupList);
-        });
+    public void showNotesFragment() {
+        replaceFragment(notesFragment);
+    }
+
+    public NotesFragment getNotesFragment() {
+        return notesFragment;
+    }
+
+    public AddEditGroupFragment getAddEditGroupFragment() {
+        return addEditGroupFragment;
     }
 
     private void addOrUpdateGroup(NoteGroup noteGroup) {
@@ -115,7 +100,7 @@ public class NotesActivity extends AppCompatActivity {
             noteDao.insertOrUpdateGroup(noteGroup);
             runOnUiThread(() -> {
                 replaceFragment(groupsFragment);
-                updateGroupList();
+                groupsFragment.updateGroupList();
             });
         });
     }

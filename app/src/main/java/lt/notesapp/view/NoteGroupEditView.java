@@ -17,6 +17,7 @@ public class NoteGroupEditView extends LinearLayout {
 
     private ViewNoteGroupEditBinding binding;
     private OnGroupSubmitListener onGroupSubmitListener;
+    private NoteGroup noteGroup;
 
     public NoteGroupEditView(Context context) {
         super(context);
@@ -39,8 +40,7 @@ public class NoteGroupEditView extends LinearLayout {
         binding = ViewNoteGroupEditBinding.bind(view);
         binding.btnSubmit.setOnClickListener(v -> {
             if (onGroupSubmitListener != null) {
-                String title = binding.etTitle.getText().toString();
-                NoteGroup noteGroup = new NoteGroup(title);
+                noteGroup.setTitle(binding.etTitle.getText().toString());
                 onGroupSubmitListener.onGroupSubmit(noteGroup);
             }
         });
@@ -51,12 +51,14 @@ public class NoteGroupEditView extends LinearLayout {
     }
 
     public void newGroup() {
+        noteGroup = new NoteGroup();
         binding.tvTitle.setText("New group");
         binding.etTitle.setText("");
         binding.btnSubmit.setText("Create");
     }
 
     public void editGroup(NoteGroup noteGroup) {
+        this.noteGroup = noteGroup;
         binding.tvTitle.setText(noteGroup.getTitle());
         binding.etTitle.setText(noteGroup.getTitle());
         binding.btnSubmit.setText("Edit");

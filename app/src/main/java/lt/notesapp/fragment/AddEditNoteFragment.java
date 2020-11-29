@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.databinding.FragmentAddEditNoteBinding;
 import lt.notesapp.events.OnNoteSubmitListener;
 import lt.notesapp.model.Note;
@@ -19,6 +20,11 @@ public class AddEditNoteFragment extends Fragment {
     private FragmentAddEditNoteBinding binding;
     private View.OnClickListener onBackListener;
     private OnNoteSubmitListener onNoteSubmitListener;
+    private NotesActivity notesActivity;
+
+    public AddEditNoteFragment(NotesActivity notesActivity) {
+        this.notesActivity = notesActivity;
+    }
 
     @Nullable
     @Override

@@ -20,6 +20,9 @@ public class NoteGroup {
         this.title = title;
     }
 
+    public NoteGroup() {
+    }
+
     public String getTitle() {
         return title;
     }
