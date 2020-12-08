@@ -8,26 +8,37 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.databinding.FragmentAddEditGroupBinding;
 import lt.notesapp.model.NoteGroup;
+import lt.notesapp.viewmodel.GroupsViewModel;
 
 public class AddEditGroupFragment extends Fragment {
 
     private FragmentAddEditGroupBinding binding;
-    private final AddEditGroupPresenter presenter;
+    private GroupsViewModel groupsViewModel;
+    private final NotesActivity notesActivity;
 
-    public AddEditGroupFragment(AddEditGroupPresenter presenter) {
-        presenter.setAddEditGroupFragment(this);
-        this.presenter = presenter;
+    public AddEditGroupFragment(NotesActivity notesActivity) {
+        this.notesActivity = notesActivity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddEditGroupBinding.inflate(inflater);
-        binding.btnBack.setOnClickListener(v -> presenter.onBackClick());
-        binding.vEditGroup.setOnGroupSubmitListener(presenter::onGroupSubmit);
+
+        groupsViewModel = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
+
+        binding.btnBack.setOnClickListener(v -> notesActivity.showGroupsFragment());
+
+        binding.vEditGroup.setOnGroupSubmitListener(noteGroup -> {
+            groupsViewModel.addOrUpdateNoteGroup(noteGroup);
+            notesActivity.showGroupsFragment();
+        });
+
         return binding.getRoot();
     }
 

@@ -8,27 +8,42 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.databinding.FragmentAddEditNoteBinding;
 import lt.notesapp.model.Note;
 import lt.notesapp.model.NoteGroup;
+import lt.notesapp.viewmodel.GroupsViewModel;
+import lt.notesapp.viewmodel.NotesViewModel;
 
 public class AddEditNoteFragment extends Fragment {
 
     private FragmentAddEditNoteBinding binding;
-    private final AddEditNotePresenter presenter;
+    private final NotesActivity notesActivity;
+    private GroupsViewModel groupsViewModel;
+    private NotesViewModel notesViewModel;
 
-    public AddEditNoteFragment(AddEditNotePresenter presenter) {
-        presenter.setAddEditNoteFragment(this);
-        this.presenter = presenter;
+    public AddEditNoteFragment(NotesActivity notesActivity) {
+        this.notesActivity = notesActivity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAddEditNoteBinding.inflate(inflater);
-        binding.btnBack.setOnClickListener(v -> presenter.onBackClick());
-        binding.vNoteEdit.setOnNoteSubmitListener(presenter::onNoteSubmit);
+
+        groupsViewModel = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
+        notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
+
+        binding.btnBack.setOnClickListener(v -> notesActivity.showNotesFragment());
+
+        binding.vNoteEdit.setOnNoteSubmitListener(note -> {
+            notesViewModel.addOrUpdateNote(note);
+            groupsViewModel.reloadNoteGroups();
+            notesActivity.showNotesFragment();
+        });
+
         return binding.getRoot();
     }
 

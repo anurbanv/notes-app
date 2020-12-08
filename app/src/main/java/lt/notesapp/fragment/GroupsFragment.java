@@ -1,7 +1,6 @@
 package lt.notesapp.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,37 +8,54 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import java.util.List;
-
+import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.databinding.FragmentGroupsBinding;
-import lt.notesapp.model.NoteGroup;
+import lt.notesapp.viewmodel.GroupsViewModel;
+import lt.notesapp.viewmodel.NotesViewModel;
 
 public class GroupsFragment extends Fragment {
 
     private FragmentGroupsBinding binding;
-    private final GroupsPresenter presenter;
-    private final Handler handler;
+    private final NotesActivity notesActivity;
+    private GroupsViewModel groupsViewModel;
+    private NotesViewModel notesViewModel;
 
-    public GroupsFragment(GroupsPresenter presenter, Handler handler) {
-        presenter.setGroupsFragment(this);
-        this.presenter = presenter;
-        this.handler = handler;
+    public GroupsFragment(NotesActivity notesActivity) {
+        this.notesActivity = notesActivity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentGroupsBinding.inflate(inflater);
-        binding.btnBack.setOnClickListener(v -> presenter.onBackClick());
-        binding.btnAdd.setOnClickListener(v -> presenter.onAddGroupClick());
-        binding.groupList.setOnEditClickListener(presenter::onEditGroupClick);
-        binding.groupList.setOnDeleteClickListener(presenter::onDeleteGroupClick);
-        binding.groupList.setOnItemClickListener(presenter::onGroupClick);
-        return binding.getRoot();
-    }
 
-    public void updateGroupList(List<NoteGroup> groups) {
-        handler.post(() -> binding.groupList.update(groups));
+        groupsViewModel = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
+        notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
+
+        groupsViewModel.getNoteGroups().observe(getViewLifecycleOwner(),
+                noteGroups -> binding.groupList.update(noteGroups));
+
+        binding.btnBack.setOnClickListener(v -> notesActivity.finish());
+
+        binding.btnAdd.setOnClickListener(v -> {
+            notesActivity.showAddEditGroupFragment();
+            notesActivity.getAddEditGroupFragment().createGroup();
+        });
+
+        binding.groupList.setOnEditClickListener(noteGroup -> {
+            notesActivity.showAddEditGroupFragment();
+            notesActivity.getAddEditGroupFragment().editGroup(noteGroup);
+        });
+
+        binding.groupList.setOnDeleteClickListener(noteGroup -> groupsViewModel.deleteNoteGroup(noteGroup));
+
+        binding.groupList.setOnItemClickListener(noteGroup -> {
+            notesViewModel.setNoteGroup(noteGroup);
+            notesActivity.showNotesFragment();
+        });
+
+        return binding.getRoot();
     }
 }

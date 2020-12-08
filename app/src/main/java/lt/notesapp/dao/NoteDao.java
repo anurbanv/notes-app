@@ -47,12 +47,12 @@ public class NoteDao {
         }
     }
 
-    public void insertNoteGroup(NoteGroup noteGroup) {
+    private void insertNoteGroup(NoteGroup noteGroup) {
         NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
         db.noteGroupDao().insert(entity);
     }
 
-    public void updateNoteGroup(NoteGroup noteGroup) {
+    private void updateNoteGroup(NoteGroup noteGroup) {
         NoteGroupEntity entity = new NoteGroupEntity(noteGroup.getTitle());
         entity.id = noteGroup.getId();
         db.noteGroupDao().update(entity);

@@ -7,6 +7,8 @@ import lt.notesapp.fragment.AddEditGroupFragment;
 import lt.notesapp.fragment.AddEditNoteFragment;
 import lt.notesapp.fragment.GroupsFragment;
 import lt.notesapp.fragment.NotesFragment;
+import lt.notesapp.viewmodel.GroupsViewModel;
+import lt.notesapp.viewmodel.NotesViewModel;
 
 @Component(modules = {
         NoteDaoModule.class,
@@ -30,4 +32,8 @@ public interface AppComponent {
     void inject(NotesFragment notesFragment);
 
     void inject(AddEditNoteFragment addEditNoteFragment);
+
+    void inject(GroupsViewModel groupsViewModel);
+
+    void inject(NotesViewModel notesViewModel);
 }

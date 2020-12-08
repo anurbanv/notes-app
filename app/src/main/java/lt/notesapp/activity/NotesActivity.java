@@ -1,8 +1,6 @@
 package lt.notesapp.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,26 +14,17 @@ import lt.notesapp.dagger.AppComponent;
 import lt.notesapp.dao.NoteDao;
 import lt.notesapp.databinding.ActivityNotesBinding;
 import lt.notesapp.fragment.AddEditGroupFragment;
-import lt.notesapp.fragment.AddEditGroupPresenter;
 import lt.notesapp.fragment.AddEditNoteFragment;
-import lt.notesapp.fragment.AddEditNotePresenter;
 import lt.notesapp.fragment.GroupsFragment;
-import lt.notesapp.fragment.GroupsPresenter;
 import lt.notesapp.fragment.NotesFragment;
-import lt.notesapp.fragment.NotesPresenter;
 
 public class NotesActivity extends AppCompatActivity {
 
     @Inject NoteDao noteDao;
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private GroupsFragment groupsFragment;
     private AddEditGroupFragment addEditGroupFragment;
     private NotesFragment notesFragment;
     private AddEditNoteFragment addEditNoteFragment;
-    private GroupsPresenter groupsPresenter;
-    private AddEditGroupPresenter addEditGroupPresenter;
-    private NotesPresenter notesPresenter;
-    private AddEditNotePresenter addEditNotePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,18 +34,12 @@ public class NotesActivity extends AppCompatActivity {
         AppComponent appComponent = NotesApp.getInstance().getAppComponent();
         appComponent.inject(this);
 
-        groupsPresenter = new GroupsPresenter(this, noteDao);
-        addEditGroupPresenter = new AddEditGroupPresenter(this, noteDao);
-        notesPresenter = new NotesPresenter(this, noteDao);
-        addEditNotePresenter = new AddEditNotePresenter(this, noteDao);
-
-        groupsFragment = new GroupsFragment(groupsPresenter, handler);
-        addEditGroupFragment = new AddEditGroupFragment(addEditGroupPresenter);
-        notesFragment = new NotesFragment(notesPresenter, handler);
-        addEditNoteFragment = new AddEditNoteFragment(addEditNotePresenter);
+        groupsFragment = new GroupsFragment(this);
+        addEditGroupFragment = new AddEditGroupFragment(this);
+        notesFragment = new NotesFragment(this);
+        addEditNoteFragment = new AddEditNoteFragment(this);
 
         showGroupsFragment();
-        groupsPresenter.updateGroupList();
     }
 
     public void showGroupsFragment() {
@@ -75,20 +58,12 @@ public class NotesActivity extends AppCompatActivity {
         replaceFragment(addEditNoteFragment);
     }
 
-    public GroupsPresenter getGroupsPresenter() {
-        return groupsPresenter;
+    public AddEditGroupFragment getAddEditGroupFragment() {
+        return addEditGroupFragment;
     }
 
-    public AddEditGroupPresenter getAddEditGroupPresenter() {
-        return addEditGroupPresenter;
-    }
-
-    public NotesPresenter getNotesPresenter() {
-        return notesPresenter;
-    }
-
-    public AddEditNotePresenter getAddEditNotePresenter() {
-        return addEditNotePresenter;
+    public AddEditNoteFragment getAddEditNoteFragment() {
+        return addEditNoteFragment;
     }
 
     private void replaceFragment(Fragment fragment) {
