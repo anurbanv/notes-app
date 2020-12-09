@@ -11,12 +11,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import lt.notesapp.NotesApp;
-import lt.notesapp.dao.NoteDao;
+import lt.notesapp.dao.NoteGroupDao;
 import lt.notesapp.model.NoteGroup;
 
 public class GroupsViewModel extends ViewModel {
 
-    @Inject NoteDao noteDao;
+    @Inject NoteGroupDao noteGroupDao;
     private final MutableLiveData<List<NoteGroup>> groups = new MutableLiveData<>();
 
     public GroupsViewModel() {
@@ -30,21 +30,21 @@ public class GroupsViewModel extends ViewModel {
 
     public void reloadNoteGroups() {
         AsyncTask.execute(() -> {
-            List<NoteGroup> allGroups = noteDao.getAllGroups();
+            List<NoteGroup> allGroups = noteGroupDao.getAllGroups();
             groups.postValue(allGroups);
         });
     }
 
     public void addOrUpdateNoteGroup(NoteGroup noteGroup) {
         AsyncTask.execute(() -> {
-            noteDao.insertOrUpdateGroup(noteGroup);
+            noteGroupDao.insertOrUpdateGroup(noteGroup);
             reloadNoteGroups();
         });
     }
 
     public void deleteNoteGroup(NoteGroup noteGroup) {
         AsyncTask.execute(() -> {
-            noteDao.deleteNoteGroup(noteGroup);
+            noteGroupDao.deleteNoteGroup(noteGroup);
             reloadNoteGroups();
         });
     }

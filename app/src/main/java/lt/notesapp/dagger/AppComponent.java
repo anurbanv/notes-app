@@ -3,6 +3,8 @@ package lt.notesapp.dagger;
 import dagger.Component;
 import lt.notesapp.activity.NotesActivity;
 import lt.notesapp.dao.NoteDao;
+import lt.notesapp.dao.NoteGroupDao;
+import lt.notesapp.dao.NoteWebDao;
 import lt.notesapp.fragment.AddEditGroupFragment;
 import lt.notesapp.fragment.AddEditNoteFragment;
 import lt.notesapp.fragment.GroupsFragment;
@@ -36,4 +38,8 @@ public interface AppComponent {
     void inject(GroupsViewModel groupsViewModel);
 
     void inject(NotesViewModel notesViewModel);
+
+    void inject(NoteGroupDao noteGroupDao);
+
+    void inject(NoteWebDao noteWebDao);
 }
