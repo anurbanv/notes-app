@@ -2,6 +2,7 @@ package lt.notesapp.rest;
 
 import java.util.List;
 
+import lt.notesapp.app.framework.entity.NoteObject;
 import retrofit2.Call;
 import retrofit2.http.GET;
 

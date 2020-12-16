@@ -31,7 +31,7 @@
 
     </RelativeLayout>
 
-    <lt.notesapp.view.NoteEditView
+    <lt.notesapp.app.presentation.view.view.NoteEditView
         android:id="@+id/vNoteEdit"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

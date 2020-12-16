@@ -41,7 +41,7 @@
 
     </RelativeLayout>
 
-    <lt.notesapp.view.NoteListView
+    <lt.notesapp.app.presentation.view.view.NoteListView
         android:id="@+id/noteList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

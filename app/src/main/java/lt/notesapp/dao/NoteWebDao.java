@@ -12,15 +12,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import lt.notesapp.NotesApp;
-import lt.notesapp.events.OnFireStoreNotesReceived;
-import lt.notesapp.model.Note;
-import lt.notesapp.rest.NoteObject;
+import lt.notesapp.app.framework.NotesApp;
+import lt.notesapp.app.framework.entity.NoteObject;
+import lt.notesapp.app.presentation.view.events.OnFireStoreNotesReceived;
+import lt.notesapp.core.domain.Note;
 import lt.notesapp.rest.NotesApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static lt.notesapp.activity.MainActivity.APP_TAG;
+import static lt.notesapp.app.presentation.view.activity.MainActivity.APP_TAG;
 
 public class NoteWebDao {
 
