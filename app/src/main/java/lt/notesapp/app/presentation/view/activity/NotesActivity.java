@@ -13,6 +13,7 @@ import lt.notesapp.app.presentation.view.fragment.AddEditGroupFragment;
 import lt.notesapp.app.presentation.view.fragment.AddEditNoteFragment;
 import lt.notesapp.app.presentation.view.fragment.GroupsFragment;
 import lt.notesapp.app.presentation.view.fragment.NotesFragment;
+import lt.notesapp.app.presentation.view.fragment.WebNotesFragment;
 import lt.notesapp.databinding.ActivityNotesBinding;
 
 public class NotesActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class NotesActivity extends AppCompatActivity {
     private AddEditGroupFragment addEditGroupFragment;
     private NotesFragment notesFragment;
     private AddEditNoteFragment addEditNoteFragment;
+    private WebNotesFragment webNotesFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class NotesActivity extends AppCompatActivity {
         addEditGroupFragment = new AddEditGroupFragment(this);
         notesFragment = new NotesFragment(this);
         addEditNoteFragment = new AddEditNoteFragment(this);
+        webNotesFragment = new WebNotesFragment(this);
 
         showGroupsFragment();
     }
@@ -52,6 +55,10 @@ public class NotesActivity extends AppCompatActivity {
 
     public void showAddEditNoteFragment() {
         replaceFragment(addEditNoteFragment);
+    }
+
+    public void showWebNotesFragment() {
+        replaceFragment(webNotesFragment);
     }
 
     public AddEditGroupFragment getAddEditGroupFragment() {

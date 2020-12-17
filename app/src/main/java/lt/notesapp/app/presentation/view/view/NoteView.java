@@ -44,9 +44,11 @@ public class NoteView extends LinearLayout {
 
     public void setOnDeleteClickListener(OnClickListener listener) {
         binding.btnDelete.setOnClickListener(listener);
+        binding.btnDelete.setVisibility(VISIBLE);
     }
 
     public void setOnEditClickListener(OnClickListener listener) {
         binding.btnEdit.setOnClickListener(listener);
+        binding.btnEdit.setVisibility(VISIBLE);
     }
 }

@@ -49,13 +49,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         Note note = notes.get(position);
         holder.noteView.update(note);
 
-        holder.noteView.setOnDeleteClickListener(v -> {
-            if (onNoteDeleteListener != null) onNoteDeleteListener.onNoteDelete(note);
-        });
+        if (onNoteDeleteListener != null) {
+            holder.noteView.setOnDeleteClickListener(v -> onNoteDeleteListener.onNoteDelete(note));
+        }
 
-        holder.noteView.setOnEditClickListener(v -> {
-            if (onNoteEditListener != null) onNoteEditListener.onNoteEdit(note);
-        });
+        if (onNoteEditListener != null) {
+            holder.noteView.setOnEditClickListener(v -> onNoteEditListener.onNoteEdit(note));
+        }
     }
 
     @Override

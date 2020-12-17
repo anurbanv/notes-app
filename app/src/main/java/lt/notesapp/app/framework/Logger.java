@@ -1,4 +1,4 @@
-package lt.notesapp;
+package lt.notesapp.app.framework;
 
 import android.util.Log;
 

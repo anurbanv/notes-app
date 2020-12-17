@@ -56,6 +56,8 @@ public class GroupsFragment extends Fragment {
             notesActivity.showNotesFragment();
         });
 
+        binding.btnWeb.setOnClickListener(v -> notesActivity.showWebNotesFragment());
+
         return binding.getRoot();
     }
 }

@@ -1,9 +1,9 @@
-package lt.notesapp.app.presentation.view.events;
+package lt.notesapp.core.repository;
 
 import java.util.List;
 
 import lt.notesapp.core.domain.Note;
 
-public interface OnFireStoreNotesReceived {
+public interface OnNotesRetrievedListener {
     void onNotesRetrieved(List<Note> notes);
 }

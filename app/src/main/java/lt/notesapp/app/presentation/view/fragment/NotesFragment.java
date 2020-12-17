@@ -13,11 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import lt.notesapp.app.presentation.view.activity.NotesActivity;
 import lt.notesapp.app.presentation.viewmodel.GroupsViewModel;
 import lt.notesapp.app.presentation.viewmodel.NotesViewModel;
-import lt.notesapp.databinding.FragmentNoteListBinding;
+import lt.notesapp.databinding.FragmentNotesBinding;
 
 public class NotesFragment extends Fragment {
 
-    private FragmentNoteListBinding binding;
+    private FragmentNotesBinding binding;
     private final NotesActivity notesActivity;
     private GroupsViewModel groupsViewModel;
     private NotesViewModel notesViewModel;
@@ -29,7 +29,7 @@ public class NotesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentNoteListBinding.inflate(inflater);
+        binding = FragmentNotesBinding.inflate(inflater);
 
         groupsViewModel = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
         notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);

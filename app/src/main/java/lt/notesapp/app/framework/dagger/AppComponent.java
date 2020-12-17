@@ -8,7 +8,6 @@ import lt.notesapp.app.presentation.view.fragment.GroupsFragment;
 import lt.notesapp.app.presentation.view.fragment.NotesFragment;
 import lt.notesapp.app.presentation.viewmodel.GroupsViewModel;
 import lt.notesapp.app.presentation.viewmodel.NotesViewModel;
-import lt.notesapp.dao.NoteWebDao;
 
 @Component(modules = {
         NoteDaoModule.class,
@@ -35,6 +34,4 @@ public interface AppComponent {
     void inject(GroupsViewModel groupsViewModel);
 
     void inject(NotesViewModel notesViewModel);
-
-    void inject(NoteWebDao noteWebDao);
 }

@@ -13,11 +13,14 @@ import javax.inject.Inject;
 import lt.notesapp.app.framework.NotesApp;
 import lt.notesapp.core.domain.Note;
 import lt.notesapp.core.domain.NoteGroup;
+import lt.notesapp.core.repository.OnNotesRetrievedListener;
 import lt.notesapp.core.usecases.NoteUseCases;
+import lt.notesapp.core.usecases.WebNoteUseCases;
 
 public class NotesViewModel extends ViewModel {
 
     @Inject NoteUseCases noteUseCases;
+    @Inject WebNoteUseCases webNoteUseCases;
     private final MutableLiveData<List<Note>> notes = new MutableLiveData<>();
     private NoteGroup noteGroup;
 
@@ -61,5 +64,9 @@ public class NotesViewModel extends ViewModel {
 
     public NoteGroup getNoteGroup() {
         return noteGroup;
+    }
+
+    public void getNotesFromWebService(OnNotesRetrievedListener onNotesRetrievedListener) {
+        AsyncTask.execute(() -> webNoteUseCases.getNotesFromWebService(onNotesRetrievedListener));
     }
 }

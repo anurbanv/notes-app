@@ -1,4 +1,4 @@
-package lt.notesapp.rest;
+package lt.notesapp.app.framework.rest;
 
 import java.util.List;
 
